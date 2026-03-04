@@ -15,22 +15,26 @@ export interface Project {
 export default function ProjectsPage() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const projects: Project[] = [
-    {
-      id: "1",
-      name: "SaaS Dashboard",
-      status: "In Progress",
-      tasks: 24,
-      dueDate: "12 Mar 2026",
-    },
-    {
-      id: "2",
-      name: "E-commerce Platform",
-      status: "Completed",
-      tasks: 40,
-      dueDate: "02 Feb 2026",
-    },
-  ];
+  const [projects, setProjects] = useState<Project[]>([
+  {
+    id: "1",
+    name: "SaaS Dashboard",
+    status: "In Progress",
+    tasks: 24,
+    dueDate: "12 Mar 2026",
+  },
+  {
+    id: "2",
+    name: "E-commerce Platform",
+    status: "Completed",
+    tasks: 40,
+    dueDate: "02 Feb 2026",
+  },
+]);
+
+const handleAddProject = (project: Project) => {
+  setProjects((prev) => [project, ...prev]);
+};
 
   return (
     <div className="space-y-10">
@@ -61,6 +65,7 @@ export default function ProjectsPage() {
       <NewProjectModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+         onAdd={handleAddProject}
       />
     </div>
   );
