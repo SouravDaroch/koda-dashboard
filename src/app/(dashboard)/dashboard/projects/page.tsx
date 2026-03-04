@@ -3,6 +3,7 @@ import { useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import NewProjectModal from "./components/NewProjectModal"
 import ProjectFilters from "./components/ProjectFilters";
+import { AnimatePresence } from "framer-motion";
 
 export interface Project {
   id: string;
@@ -79,9 +80,11 @@ export default function ProjectsPage() {
       />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+         <AnimatePresence mode="popLayout">
         {filteredProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
+        </AnimatePresence>
       </div>
 
       <NewProjectModal
