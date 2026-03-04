@@ -16,7 +16,8 @@ export default function ProjectCard({
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
             transition={{
                 duration: 0.3,
-                ease:easeOut
+                ease:easeOut  
+                
                 // ease: [0.22, 1, 1, 2], // smooth cubic-bezier
             }}
             whileHover={{
