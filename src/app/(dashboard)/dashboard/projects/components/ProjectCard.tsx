@@ -11,9 +11,9 @@ export default function ProjectCard({
 }) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5 }}
             className="bg-white rounded-2xl p-6 border border-violet-100 shadow-sm hover:shadow-md transition space-y-4"
         >
             <div className="flex items-center justify-between">
