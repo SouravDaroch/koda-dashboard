@@ -1,5 +1,6 @@
 import { Project } from "../page";
 import StatusBadge from "./StatusBadge";
+import { motion } from "framer-motion";
 
 export default function ProjectCard({
   project,
@@ -7,7 +8,12 @@ export default function ProjectCard({
   project: Project;
 }) {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-violet-100 shadow-sm hover:shadow-md transition space-y-4">
+  <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.3 }}
+  className="bg-white rounded-2xl p-6 border border-violet-100 shadow-sm hover:shadow-md transition space-y-4"
+>
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-gray-800">
           {project.name}
@@ -23,6 +29,6 @@ export default function ProjectCard({
       <button className="text-sm font-medium text-violet-600 hover:text-violet-700 transition">
         View Details →
       </button>
-    </div>
+    </motion.div>
   );
 }

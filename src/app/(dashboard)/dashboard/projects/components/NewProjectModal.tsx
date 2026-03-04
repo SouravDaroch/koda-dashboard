@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function NewProjectModal({
     isOpen,
@@ -20,14 +21,28 @@ export default function NewProjectModal({
     const [status, setStatus] = useState<
         "Planning" | "In Progress" | "Completed"
     >("Planning");
-    if (!isOpen) return null;
+    // if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-            <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl space-y-5">
-                <h2 className="text-lg font-semibold text-gray-800">
-                    Create New Project
-                </h2>
+return (
+  <AnimatePresence>
+    {isOpen && (
+      <motion.div
+        className="fixed inset-0 bg-black/30 flex items-center justify-center z-50"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          initial={{ y: 40, opacity: 0, scale: 0.95 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 30, opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl space-y-5"
+        >
+          <h2 className="text-lg font-semibold text-gray-800">
+            Create New Project
+          </h2>
+
 
                 <input
                     type="text"
@@ -80,7 +95,8 @@ export default function NewProjectModal({
                         Create
                     </button>
                 </div>
-            </div>
-        </div>
-    );
-}
+          </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);}
