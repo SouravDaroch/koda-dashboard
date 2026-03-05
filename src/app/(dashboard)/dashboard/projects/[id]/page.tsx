@@ -14,6 +14,8 @@ interface ProjectDetailsProps {
 export default function ProjectDetails({ params }: ProjectDetailsProps) {
     const { id } = use(params);
 
+
+
     // Task state 
     const [tasks, setTasks] = useState<Task[]>([
         { id: "1", title: "Setup authenticationdewrthyuesrtertefrtwer5rrww4e5efwrtefrtsrdtryereteretrdtghjfghfgvudfgcufuhifghijfgiojxfgchvudfghudfcgvhijdfgyhugvhsadfghdsrdgtfdfsdsfrdf", status: "Done" },
@@ -51,6 +53,21 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
             )
         );
     };
+
+
+    const totalTasks = tasks.length;
+
+    const completedTasks = tasks.filter(
+        (task) => task.status === "Done"
+    ).length;
+
+    const inProgressTasks = tasks.filter(
+        (task) => task.status === "In Progress"
+    ).length;
+
+    const todoTasks = tasks.filter(
+        (task) => task.status === "Todo"
+    ).length;
     return (
         <div className="space-y-8">
             <div>
@@ -62,21 +79,34 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-4 gap-6">
+
                 <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Status</h3>
-                    <p className="text-lg font-semibold mt-1">In Progress</p>
+                    <h3 className="text-sm text-gray-500">Total Tasks</h3>
+                    <p className="text-2xl font-bold mt-2">{totalTasks}</p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Tasks</h3>
-                    <p className="text-lg font-semibold mt-1">{tasks.length} Tasks</p>
+                    <h3 className="text-sm text-gray-500">Completed</h3>
+                    <p className="text-2xl font-bold text-green-600 mt-2">
+                        {completedTasks}
+                    </p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Due Date</h3>
-                    <p className="text-lg font-semibold mt-1">12 Mar 2026</p>
+                    <h3 className="text-sm text-gray-500">In Progress</h3>
+                    <p className="text-2xl font-bold text-violet-600 mt-2">
+                        {inProgressTasks}
+                    </p>
                 </div>
+
+                <div className="bg-white p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500">Todo</h3>
+                    <p className="text-2xl font-bold text-gray-600 mt-2">
+                        {todoTasks}
+                    </p>
+                </div>
+
             </div>
 
             {/* Task Section */}
