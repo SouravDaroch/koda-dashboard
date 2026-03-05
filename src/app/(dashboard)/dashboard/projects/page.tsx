@@ -41,6 +41,10 @@ export default function ProjectsPage() {
     setProjects((prev) => [project, ...prev]);
   };
 
+const handleDeleteProject = (id: string) => {
+  setProjects((prev) => prev.filter((p) => p.id !== id));
+};
+
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = project.name
       .toLowerCase()
@@ -82,7 +86,7 @@ export default function ProjectsPage() {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
          <AnimatePresence mode="popLayout">
         {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project}  onDelete={handleDeleteProject}/>
         ))}
         </AnimatePresence>
       </div>
