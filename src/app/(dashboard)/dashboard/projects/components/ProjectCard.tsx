@@ -3,15 +3,17 @@
 import { Project } from "../page";
 import StatusBadge from "./StatusBadge";
 import { easeOut, motion } from "framer-motion";
+import Link from "next/link";
 
 export default function ProjectCard({
     project,
     onDelete
 }: {
     project: Project;
- onDelete: () => void;
+    onDelete: () => void;
 }) {
     return (
+
         <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -42,9 +44,12 @@ export default function ProjectCard({
                 <p>Due: {project.dueDate}</p>
             </div>
             <div className="flex justify-between">
-                <button className="text-sm font-medium text-violet-600 hover:text-violet-700 transition">
-                    View Details →
-                </button>
+                <Link href={`/dashboard/projects/${project.id}`}>
+                    <button className="text-sm font-medium text-violet-600 hover:text-violet-700 transition">
+                        View Details →
+                    </button>
+                </Link>
+
                 <button
                     onClick={onDelete}
                     className="text-sm text-red-500 hover:text-red-600 transition cursor-pointer"
@@ -53,5 +58,6 @@ export default function ProjectCard({
                 </button>
             </div>
         </motion.div>
+
     );
 }
