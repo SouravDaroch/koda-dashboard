@@ -4,6 +4,7 @@ import ProjectCard from "./components/ProjectCard";
 import NewProjectModal from "./components/NewProjectModal"
 import ProjectFilters from "./components/ProjectFilters";
 import { AnimatePresence } from "framer-motion";
+import DeleteProjectModal from "./components/DeleteProjectModal";
 
 export interface Project {
   id: string;
@@ -15,6 +16,7 @@ export interface Project {
 
 export default function ProjectsPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [deleteProject, setDeleteProject] = useState<Project | null>(null);
 
   const [projects, setProjects] = useState<Project[]>([
     {
@@ -41,9 +43,19 @@ export default function ProjectsPage() {
     setProjects((prev) => [project, ...prev]);
   };
 
-const handleDeleteProject = (id: string) => {
-  setProjects((prev) => prev.filter((p) => p.id !== id));
-};
+  const handleDeleteClick = (project: Project) => {
+    setDeleteProject(project);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteProject) return;
+
+    setProjects((prev) =>
+      prev.filter((p) => p.id !== deleteProject.id)
+    );
+
+    setDeleteProject(null);
+  };
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = project.name
@@ -82,14 +94,20 @@ const handleDeleteProject = (id: string) => {
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
-
+      {/* Projects grid  */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-         <AnimatePresence mode="popLayout">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project}  onDelete={handleDeleteProject}/>
-        ))}
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} onDelete={() => handleDeleteClick(project)} />
+          ))}
         </AnimatePresence>
       </div>
+      <DeleteProjectModal
+        isOpen={!!deleteProject}
+        onClose={() => setDeleteProject(null)}
+        onConfirm={confirmDelete}
+        projectName={deleteProject?.name || ""}
+      />
 
       <NewProjectModal
         isOpen={isOpen}

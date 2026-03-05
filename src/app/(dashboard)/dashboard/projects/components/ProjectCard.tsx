@@ -9,7 +9,7 @@ export default function ProjectCard({
     onDelete
 }: {
     project: Project;
-     onDelete: (id: string) => void;
+ onDelete: () => void;
 }) {
     return (
         <motion.div
@@ -18,13 +18,14 @@ export default function ProjectCard({
             exit={{ opacity: 0, y: -20, scale: 0.98 }}
             transition={{
                 duration: 0.4,
-                ease:easeOut  
+                ease: easeOut
                 // ease: [0.22, 1, 1, 2], // smooth cubic-bezier
             }}
             whileHover={{
                 y: -4,
-                transition: { duration: 0.2, 
-                    ease:easeOut
+                transition: {
+                    duration: 0.2,
+                    ease: easeOut
                 },
             }}
             className="bg-white rounded-2xl p-6 border border-violet-100 shadow-sm hover:shadow-lg transition space-y-4"
@@ -40,21 +41,17 @@ export default function ProjectCard({
                 <p>{project.tasks} Tasks</p>
                 <p>Due: {project.dueDate}</p>
             </div>
-<div className="flex justify-between">
-   <button className="text-sm font-medium text-violet-600 hover:text-violet-700 transition">
-                View Details →
-            </button>
-
-    <button
-  onClick={() => onDelete(project.id)}
-  className="text-sm text-red-500 hover:text-red-600 transition cursor-pointer"
->
-  Delete
-</button>
-</div>
-         
-
-            
+            <div className="flex justify-between">
+                <button className="text-sm font-medium text-violet-600 hover:text-violet-700 transition">
+                    View Details →
+                </button>
+                <button
+                    onClick={onDelete}
+                    className="text-sm text-red-500 hover:text-red-600 transition cursor-pointer"
+                >
+                    Delete
+                </button>
+            </div>
         </motion.div>
     );
 }
