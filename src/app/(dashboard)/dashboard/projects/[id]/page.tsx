@@ -3,7 +3,7 @@
 import { use, useState } from "react";
 import TaskList from "./components/TaskList";
 import AddTaskModal from "./components/AddTaskModal";
-import { Task } from "./types";
+import { Task } from "@/types/task";
 
 interface ProjectDetailsProps {
     params: Promise<{

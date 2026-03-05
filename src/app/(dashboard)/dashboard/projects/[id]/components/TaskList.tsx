@@ -1,7 +1,7 @@
 "use client";
 
 import TaskCard from "./TaskCard";
-import { Task } from "../types";
+import { Task } from "@/types/task";
 
 interface Props {
     tasks: Task[];

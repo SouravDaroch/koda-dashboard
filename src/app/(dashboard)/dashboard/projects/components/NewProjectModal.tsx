@@ -2,6 +2,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Project } from "@/types/project";
 
 export default function NewProjectModal({
     isOpen,
@@ -10,13 +11,7 @@ export default function NewProjectModal({
 }: {
     isOpen: boolean;
     onClose: () => void;
-    onAdd: (project: {
-        id: string;
-        name: string;
-        status: "Planning" | "In Progress" | "Completed";
-        tasks: number;
-        dueDate: string;
-    }) => void;
+    onAdd: (project: Project) => void;
 }) {
 
     const [name, setName] = useState("");
@@ -57,7 +52,9 @@ export default function NewProjectModal({
                         <select className="w-full border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                             value={status}
                             onChange={(e) =>
-                                setStatus(e.target.value as any)
+                                setStatus(
+                                    e.target.value as "Planning" | "In Progress" | "Completed"
+                                )
                             }
                         >
                             <option>Planning</option>
@@ -84,7 +81,7 @@ export default function NewProjectModal({
                                         id: crypto.randomUUID(),
                                         name,
                                         status,
-                                        tasks: 0,
+                                        tasks: [],
                                         dueDate: new Date().toLocaleDateString(),
                                     });
 

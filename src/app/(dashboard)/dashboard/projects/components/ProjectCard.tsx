@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "../page";
+import { Project } from "@/types/project";
 import StatusBadge from "./StatusBadge";
 import { easeOut, motion } from "framer-motion";
 import Link from "next/link";
@@ -40,7 +40,7 @@ export default function ProjectCard({
             </div>
 
             <div className="text-sm text-gray-500 space-y-1">
-                <p>{project.tasks} Tasks</p>
+                <p>{project.tasks.length} Tasks</p>
                 <p>Due: {project.dueDate}</p>
             </div>
             <div className="flex justify-between">

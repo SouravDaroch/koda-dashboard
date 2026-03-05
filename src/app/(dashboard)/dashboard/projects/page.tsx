@@ -6,13 +6,7 @@ import ProjectFilters from "./components/ProjectFilters";
 import { AnimatePresence } from "framer-motion";
 import DeleteProjectModal from "./components/DeleteProjectModal";
 
-export interface Project {
-  id: string;
-  name: string;
-  status: "Planning" | "In Progress" | "Completed";
-  tasks: number;
-  dueDate: string;
-}
+import { Project } from "@/types/project";
 
 export default function ProjectsPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,14 +17,14 @@ export default function ProjectsPage() {
       id: "1",
       name: "SaaS Dashboard",
       status: "In Progress",
-      tasks: 24,
+      tasks: [],
       dueDate: "12 Mar 2026",
     },
     {
       id: "2",
       name: "E-commerce Platform",
       status: "Completed",
-      tasks: 40,
+      tasks: [],
       dueDate: "02 Feb 2026",
     },
   ]);
