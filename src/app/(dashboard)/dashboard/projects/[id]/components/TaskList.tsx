@@ -6,13 +6,14 @@ import { Task } from "../types";
 interface Props {
     tasks: Task[];
     onDelete: (id: string) => void;
+    onToggle: (id: string) => void;
 }
 
-export default function TaskList({ tasks, onDelete }: Props) {
+export default function TaskList({ tasks, onDelete,onToggle }: Props) {
     return (
         <div className="space-y-4">
             {tasks.map((task) => (
-                <TaskCard key={task.id} task={task} onDelete={onDelete} />
+                <TaskCard key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} />
             ))}
         </div>
     );

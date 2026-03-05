@@ -24,12 +24,32 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
     // open add task modal 
     const [isOpen, setIsOpen] = useState(false);
 
+    // Add task 
     const handleAddTask = (task: Task) => {
         setTasks((prev) => [task, ...prev]);
     };
-
+    // Delete Task 
     const handleDeleteTask = (id: string) => {
         setTasks((prev) => prev.filter((task) => task.id !== id));
+    };
+
+    // Toggle status 
+    const handleToggleStatus = (id: string) => {
+        setTasks((prev) =>
+            prev.map((task) =>
+                task.id === id
+                    ? {
+                        ...task,
+                        status:
+                            task.status === "Todo"
+                                ? "In Progress"
+                                : task.status === "In Progress"
+                                    ? "Done"
+                                    : "Todo",
+                    }
+                    : task
+            )
+        );
     };
     return (
         <div className="space-y-8">
@@ -75,7 +95,8 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 </div>
 
                 <TaskList tasks={tasks}
-                    onDelete={handleDeleteTask} />
+                    onDelete={handleDeleteTask}
+                    onToggle={handleToggleStatus} />
             </div>
 
             <AddTaskModal
