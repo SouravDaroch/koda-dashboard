@@ -1,17 +1,26 @@
+"use client"
 interface PageProps {
     params: Promise<{
         id: string;
     }>;
 }
 
+import { useState } from "react";
 import TaskList from "./components/TaskList";
 import { Task } from "./types";
+import AddTaskModal from "./components/AddTaskModal";
 
-const tasks: Task[] = [
+const [tasks, setTasks] = useState<Task[]>([
     { id: "1", title: "Setup authentication", status: "Done" },
     { id: "2", title: "Build dashboard UI", status: "In Progress" },
     { id: "3", title: "Connect API", status: "Todo" },
-];
+]);
+
+const [isOpen, setIsOpen] = useState(false);
+
+const handleAddTask = (task: Task) => {
+    setTasks((prev) => [task, ...prev]);
+};
 
 export default async function ProjectDetails({ params }: PageProps) {
     const { id } = await params;
@@ -44,14 +53,24 @@ export default async function ProjectDetails({ params }: PageProps) {
                 </div>
             </div>
 
-
-            <div className="bg-white p-6 rounded-2xl shadow-sm space-y-4">
+            {/* Task list  */}
+            <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-800">
                     Tasks
                 </h2>
 
-                <TaskList tasks={tasks} />
+                <button
+                    onClick={() => setIsOpen(true)}
+                    className="text-sm bg-violet-600 text-white px-3 py-1.5 rounded-lg hover:bg-violet-700"
+                >
+                    + Add Task
+                </button>
             </div>
+            <AddTaskModal
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                onAdd={handleAddTask}
+            />
         </div>
     );
 }
