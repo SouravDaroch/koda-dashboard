@@ -11,7 +11,11 @@ export default function SidebarItem({
   href,
 }: SidebarItemProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive =
+    href === "/dashboard"
+      ? pathname === "/dashboard"
+      : pathname.startsWith(href);
+
   return (
     <Link href={href}
       className={`block px-4 py-2 rounded-xl text-sm font-medium cursor-pointer transition
