@@ -12,7 +12,7 @@ import { useProjectStore } from "@/store/projectStore";
 
 export default function ProjectsPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
   const projects = useProjectStore((state) => state.projects);
   const addProject = useProjectStore((state) => state.addProject);
@@ -28,14 +28,14 @@ export default function ProjectsPage() {
   };
 
   const handleDeleteClick = (project: Project) => {
-    setSelectedProject(project);
+    setProjectToDelete(project);
   };
 
   const confirmDelete = () => {
-    if (!selectedProject) return;
+    if (!projectToDelete) return;
 
-    removeProject(selectedProject.id);
-    setSelectedProject(null);
+    removeProject(projectToDelete.id);
+    setProjectToDelete(null);
   };
 
   const filteredProjects = projects.filter((project) => {
@@ -89,16 +89,16 @@ export default function ProjectsPage() {
       </div>
 
       <DeleteProjectModal
-        isOpen={!!selectedProject}
-        onClose={() => setSelectedProject(null)}
+        isOpen={!!projectToDelete}
+        onClose={() => setProjectToDelete(null)}
         onConfirm={confirmDelete}
-        projectName={selectedProject?.name || ""}
+        projectName={projectToDelete?.name || ""}
       />
 
       <NewProjectModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onAdd={handleAddProject}
+      
       />
     </div>
   );

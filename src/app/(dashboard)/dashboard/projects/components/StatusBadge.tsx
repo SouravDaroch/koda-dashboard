@@ -1,7 +1,9 @@
+
+import { ProjectStatus } from "@/types/project";
 export default function StatusBadge({
   status,
 }: {
-  status: "Planning" | "In Progress" | "Completed";
+  status: ProjectStatus;
 }) {
   const base =
     "px-3 py-1 text-xs rounded-full font-medium";
