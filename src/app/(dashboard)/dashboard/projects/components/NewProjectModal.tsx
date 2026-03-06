@@ -75,6 +75,7 @@ export default function NewProjectModal({
 
 
                             <button
+                                disabled={!name.trim()}
                                 onClick={() => {
                                     if (!name.trim()) return;
 

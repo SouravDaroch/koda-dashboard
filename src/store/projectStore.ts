@@ -9,7 +9,6 @@ interface ProjectStore {
 
   addProject: (project: Project) => void;
   deleteProject: (projectId: string) => void;
-
   addTask: (projectId: string, task: Task) => void;
   deleteTask: (projectId: string, taskId: string) => void;
   toggleTask: (projectId: string, taskId: string) => void;

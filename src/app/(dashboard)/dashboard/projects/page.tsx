@@ -15,7 +15,6 @@ export default function ProjectsPage() {
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
   const projects = useProjectStore((state) => state.projects);
-  const addProject = useProjectStore((state) => state.addProject);
   const removeProject = useProjectStore((state) => state.deleteProject);
 
   const [search, setSearch] = useState("");
@@ -23,9 +22,7 @@ export default function ProjectsPage() {
     "All" | "Planning" | "In Progress" | "Completed"
   >("All");
 
-  const handleAddProject = (project: Project) => {
-    addProject(project);
-  };
+
 
   const handleDeleteClick = (project: Project) => {
     setProjectToDelete(project);
