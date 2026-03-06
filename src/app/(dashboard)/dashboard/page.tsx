@@ -1,48 +1,43 @@
+"use client"
+import { useProjectStore } from "@/store/projectStore";
+import Link from "next/link";
+import { Project } from "@/types/project";
 interface Stat {
   title: string;
   value: number;
 }
 
-interface Project {
-  id: string;
-  name: string;
-  status: "Planning" | "In Progress" | "Completed";
-  tasks: number;
-  dueDate: string;
+interface DashboardProject {
+  id: string
+  name: string
+  status: "Planning" | "In Progress" | "Completed"
+  tasks: number
+  dueDate: string
 }
 
-const stats: Stat[] = [
-  { title: "Total Projects", value: 12 },
-  { title: "Active Tasks", value: 48 },
-  { title: "Completed Tasks", value: 132 },
-  { title: "Team Members", value: 6 },
-];
 
-const projects: Project[] = [
-  {
-    id: "1",
-    name: "SaaS Dashboard",
-    status: "In Progress",
-    tasks: 24,
-    dueDate: "12 Mar 2026",
-  },
-  {
-    id: "2",
-    name: "E-commerce App",
-    status: "Completed",
-    tasks: 40,
-    dueDate: "02 Feb 2026",
-  },
-  {
-    id: "3",
-    name: "Portfolio Website",
-    status: "Planning",
-    tasks: 12,
-    dueDate: "25 Mar 2026",
-  },
-];
 
 export default function DashboardPage() {
+  const projects = useProjectStore((state) => state.projects);
+
+  const allTasks = projects.flatMap((p) => p.tasks);
+
+  const stats: Stat[] = [
+    { title: "Total Projects", value: projects.length },
+    { title: "Active Tasks", value: allTasks.filter(t => t.status === "In Progress").length },
+    { title: "Completed Tasks", value: allTasks.filter(t => t.status === "Done").length },
+    { title: "Total Tasks", value: allTasks.length },
+  ];
+
+
+  const dashboardProjects: DashboardProject[] = projects.map((p) => ({
+    id: p.id,
+    name: p.name,
+    status: p.status,
+    tasks: p.tasks.length,
+    dueDate: p.dueDate,
+  }));
+
   return (
     <div className="space-y-10">
       {/* Title */}
@@ -84,7 +79,7 @@ export default function DashboardPage() {
             </thead>
 
             <tbody className="text-sm text-gray-700">
-              {projects.map((project) => (
+              {dashboardProjects.map((project) => (
                 <TableRow key={project.id} {...project} />
               ))}
             </tbody>
@@ -107,14 +102,17 @@ function StatCard({ title, value }: Stat) {
 }
 
 function TableRow({
+  id,
   name,
   status,
   tasks,
   dueDate,
-}: Project) {
+}: DashboardProject) {
   return (
     <tr className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition">
-      <td className="py-4 font-medium">{name}</td>
+      <td className="py-4 font-medium text-violet-600">
+        <Link href={`/dashboard/projects/${id}`}>{name}</Link>
+      </td>
       <td>
         <StatusBadge status={status} />
       </td>
