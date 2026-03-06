@@ -1,5 +1,5 @@
 "use client";
-
+import {motion} from "framer-motion"
 import { useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import NewProjectModal from "./components/NewProjectModal";
@@ -46,6 +46,9 @@ export default function ProjectsPage() {
     return matchesSearch && matchesStatus;
   });
 
+  const noProjects = projects.length === 0;
+  const noResults = filteredProjects.length === 0;
+
   return (
     <div className="space-y-10">
       <div className="flex items-center justify-between">
@@ -73,17 +76,54 @@ export default function ProjectsPage() {
         setFilterStatus={setFilterStatus}
       />
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onDelete={() => handleDeleteClick(project)}
-            />
-          ))}
-        </AnimatePresence>
-      </div>
+
+
+      {noResults ? (
+  <motion.div
+  initial={{ opacity: 0, scale: 0.95 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.3 }}
+  className="flex flex-col items-center justify-center py-20 bg-white border border-violet-100 rounded-2xl shadow-sm text-center"
+>
+    
+    <div className="text-5xl mb-4">
+      {noProjects ? "📂" : "🔍"}
+    </div>
+
+    <h3 className="text-lg font-semibold text-gray-800">
+      {noProjects ? "No Projects Yet" : "No Results Found"}
+    </h3>
+
+    <p className="text-gray-500 mt-1">
+      {noProjects
+        ? "Create your first project to start managing work."
+        : "Try changing the search or filter."}
+    </p>
+
+    {noProjects && (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="mt-5 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition"
+      >
+        + Create Project
+      </button>
+    )}
+  </motion.div>
+)  :
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {
+              filteredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onDelete={() => handleDeleteClick(project)}
+                />
+              ))}
+          </AnimatePresence>
+        </div>
+      }
+
 
       <DeleteProjectModal
         isOpen={!!projectToDelete}
@@ -95,7 +135,7 @@ export default function ProjectsPage() {
       <NewProjectModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-      
+
       />
     </div>
   );

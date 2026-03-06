@@ -44,9 +44,7 @@ export default function DashboardPage() {
     ).length;
 
 
-    const inProgress = p.tasks.filter(
-      (t) => t.status === "In Progress"
-    ).length;
+
 
     const progress = total === 0 ? 0 : Math.round((completed/total) * 100);
     return {
@@ -103,7 +101,7 @@ export default function DashboardPage() {
             <tbody className="text-sm text-gray-700">
               {dashboardProjects.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className=" text-center py-10 text-gray-500">
+                  <td colSpan={5} className=" text-center py-10 text-gray-500">
                     No projects yet. Create your first project 🚀
                   </td>
                 </tr>
