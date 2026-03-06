@@ -1,54 +1,41 @@
 "use client";
+
 import { useState } from "react";
 import ProjectCard from "./components/ProjectCard";
-import NewProjectModal from "./components/NewProjectModal"
+import NewProjectModal from "./components/NewProjectModal";
 import ProjectFilters from "./components/ProjectFilters";
 import { AnimatePresence } from "framer-motion";
 import DeleteProjectModal from "./components/DeleteProjectModal";
 
 import { Project } from "@/types/project";
+import { useProjectStore } from "@/store/projectStore";
 
 export default function ProjectsPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteProject, setDeleteProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const [projects, setProjects] = useState<Project[]>([
-    {
-      id: "1",
-      name: "SaaS Dashboard",
-      status: "In Progress",
-      tasks: [],
-      dueDate: "12 Mar 2026",
-    },
-    {
-      id: "2",
-      name: "E-commerce Platform",
-      status: "Completed",
-      tasks: [],
-      dueDate: "02 Feb 2026",
-    },
-  ]);
+  const projects = useProjectStore((state) => state.projects);
+  const addProject = useProjectStore((state) => state.addProject);
+  const removeProject = useProjectStore((state) => state.deleteProject);
+
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<
     "All" | "Planning" | "In Progress" | "Completed"
   >("All");
 
   const handleAddProject = (project: Project) => {
-    setProjects((prev) => [project, ...prev]);
+    addProject(project);
   };
 
   const handleDeleteClick = (project: Project) => {
-    setDeleteProject(project);
+    setSelectedProject(project);
   };
 
   const confirmDelete = () => {
-    if (!deleteProject) return;
+    if (!selectedProject) return;
 
-    setProjects((prev) =>
-      prev.filter((p) => p.id !== deleteProject.id)
-    );
-
-    setDeleteProject(null);
+    removeProject(selectedProject.id);
+    setSelectedProject(null);
   };
 
   const filteredProjects = projects.filter((project) => {
@@ -88,19 +75,24 @@ export default function ProjectsPage() {
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
-      {/* Projects grid  */}
+
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} onDelete={() => handleDeleteClick(project)} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onDelete={() => handleDeleteClick(project)}
+            />
           ))}
         </AnimatePresence>
       </div>
+
       <DeleteProjectModal
-        isOpen={!!deleteProject}
-        onClose={() => setDeleteProject(null)}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
         onConfirm={confirmDelete}
-        projectName={deleteProject?.name || ""}
+        projectName={selectedProject?.name || ""}
       />
 
       <NewProjectModal

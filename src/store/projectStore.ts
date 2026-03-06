@@ -1,22 +1,14 @@
+import { Project } from "@/types/project";
+import { Task } from "@/types/task";
 import { create } from "zustand";
 
-export type TaskStatus = "Todo" | "In Progress" | "Done";
 
-export interface Task {
-  id: string;
-  title: string;
-  status: TaskStatus;
-}
-
-export interface Project {
-  id: string;
-  name: string;
-  status: "Planning" | "In Progress" | "Completed";
-  tasks: Task[];
-}
 
 interface ProjectStore {
   projects: Project[];
+
+  addProject: (project: Project) => void;
+  deleteProject: (projectId: string) => void;
 
   addTask: (projectId: string, task: Task) => void;
   deleteTask: (projectId: string, taskId: string) => void;
@@ -29,6 +21,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
       id: "1",
       name: "SaaS Dashboard",
       status: "In Progress",
+       dueDate: "2026-04-10",
       tasks: [
         { id: "1", title: "Setup authentication", status: "Done" },
         { id: "2", title: "Build dashboard UI", status: "In Progress" },
@@ -36,6 +29,16 @@ export const useProjectStore = create<ProjectStore>((set) => ({
       ],
     },
   ],
+
+  addProject: (project) =>
+    set((state) => ({
+      projects: [project, ...state.projects],
+    })),
+
+  deleteProject: (projectId) =>
+    set((state) => ({
+      projects: state.projects.filter((p) => p.id !== projectId),
+    })),
 
   addTask: (projectId, task) =>
     set((state) => ({
