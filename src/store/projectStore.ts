@@ -1,7 +1,7 @@
 import { Project } from "@/types/project";
 import { Task } from "@/types/task";
 import { create } from "zustand";
-
+import { persist } from "zustand/middleware";
 
 
 interface ProjectStore {
@@ -14,17 +14,19 @@ interface ProjectStore {
   toggleTask: (projectId: string, taskId: string) => void;
 }
 
-export const useProjectStore = create<ProjectStore>((set) => ({
+export const useProjectStore = create<ProjectStore>()(
+  persist(
+    (set) => ({
   projects: [
     {
       id: "1",
       name: "SaaS Dashboard",
       status: "In Progress",
-       dueDate: "2026-04-10",
+      dueDate: "2026-04-10",
       tasks: [
-        { id: "1", title: "Setup authentication", status: "Done" },
+        { id: "1", title: "Setup authentication", status: "Todo" },
         { id: "2", title: "Build dashboard UI", status: "In Progress" },
-        { id: "3", title: "Connect API", status: "Todo" },
+        { id: "3", title: "Connect API", status: "Done" },
       ],
     },
   ],
@@ -53,9 +55,9 @@ export const useProjectStore = create<ProjectStore>((set) => ({
       projects: state.projects.map((project) =>
         project.id === projectId
           ? {
-              ...project,
-              tasks: project.tasks.filter((t) => t.id !== taskId),
-            }
+            ...project,
+            tasks: project.tasks.filter((t) => t.id !== taskId),
+          }
           : project
       ),
     })),
@@ -65,22 +67,26 @@ export const useProjectStore = create<ProjectStore>((set) => ({
       projects: state.projects.map((project) =>
         project.id === projectId
           ? {
-              ...project,
-              tasks: project.tasks.map((task) =>
-                task.id === taskId
-                  ? {
-                      ...task,
-                      status:
-                        task.status === "Todo"
-                          ? "In Progress"
-                          : task.status === "In Progress"
-                          ? "Done"
-                          : "Todo",
-                    }
-                  : task
-              ),
-            }
+            ...project,
+            tasks: project.tasks.map((task) =>
+              task.id === taskId
+                ? {
+                  ...task,
+                  status:
+                    task.status === "Todo"
+                      ? "In Progress"
+                      : task.status === "In Progress"
+                        ? "Done"
+                        : "Todo",
+                }
+                : task
+            ),
+          }
           : project
       ),
     })),
-}));
+}),
+  {
+      name: "project-storage",
+    })
+);

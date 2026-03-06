@@ -43,7 +43,12 @@ export default function DashboardPage() {
       (t) => t.status === "Done"
     ).length;
 
-    const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+    const inProgress = p.tasks.filter(
+      (t) => t.status === "In Progress"
+    ).length;
+
+    const progress = total === 0 ? 0 : Math.round((completed/total) * 100);
     return {
       id: p.id,
       name: p.name,
@@ -79,9 +84,9 @@ export default function DashboardPage() {
 
       {/* Projects Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-violet-100 p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-6">
-          Recent Projects
-        </h2>
+        <div className="flex justify-between text-lg font-semibold text-gray-800 mb-6">
+          Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700">View All</Link>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
@@ -90,15 +95,23 @@ export default function DashboardPage() {
                 <th className="py-3">Project</th>
                 <th>Status</th>
                 <th>Tasks</th>
-                <th>Due Date</th>
+                <th className="mx-2">Due Date</th>
                 <th>Progress</th>
               </tr>
             </thead>
 
             <tbody className="text-sm text-gray-700">
-              {dashboardProjects.map((project) => (
-                <TableRow key={project.id} {...project} />
-              ))}
+              {dashboardProjects.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className=" text-center py-10 text-gray-500">
+                    No projects yet. Create your first project 🚀
+                  </td>
+                </tr>
+              ) : (
+                dashboardProjects.map((project) => (
+                  <TableRow key={project.id} {...project} />
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -132,18 +145,18 @@ function TableRow({
         <Link href={`/dashboard/projects/${id}`}>{name}</Link>
       </td>
       <td>
-        <StatusBadge status={status} />
+        <StatusBadge status={status} progress={progress} />
       </td>
       <td>{tasks}</td>
       <td>{dueDate}</td>
       <td className="w-40">
-  <div className="w-full bg-gray-200 rounded-full h-2">
-    <div
-      className="bg-violet-600 h-2 rounded-full"
-      style={{ width: `${progress}%` }}
-    />
-  </div>
-</td>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div
+            className="bg-violet-600 h-2 rounded-full"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </td>
     </tr>
   );
 }

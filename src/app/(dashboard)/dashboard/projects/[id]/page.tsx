@@ -59,7 +59,7 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
         (task) => task.status === "In Progress"
     ).length;
 
-    const todoTasks = tasks.filter(
+    const PlanningTasks = tasks.filter(
         (task) => task.status === "Todo"
     ).length;
     return (
@@ -95,9 +95,9 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Todo</h3>
+                    <h3 className="text-sm text-gray-500">Planning</h3>
                     <p className="text-2xl font-bold text-gray-600 mt-2">
-                        {todoTasks}
+                        {PlanningTasks}
                     </p>
                 </div>
 
@@ -121,10 +121,10 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 {/* Filter Buttons UI */}
                 <div className="flex gap-2">
 
-                    {["All", "Todo", "In Progress", "Done"].map((status) => (
+                    {["All", "Planning", "In Progress", "Completed"].map((status) => (
                         <button
                             key={status}
-                            onClick={() => setFilter(status as "All" | "Todo" | "In Progress" | "Done")}
+                            onClick={() => setFilter(status as "All" |"Todo" | "In Progress" | "Done")}
                             className={`px-3 py-1 rounded-lg text-sm transition
         ${filter === status
                                     ? "bg-violet-600 text-white"

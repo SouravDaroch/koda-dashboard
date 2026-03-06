@@ -10,7 +10,7 @@ export default function StatusBadge({
 
   if (status === "Completed")
     return (
-      <span className={`${base} bg-violet-100 text-violet-700`}>
+      <span className={`${base} bg-green-100 text-green-600`}>
         {status}
       </span>
     );

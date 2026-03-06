@@ -1,14 +1,15 @@
 export default function StatusBadge({
-  status,
+  status, progress
 }: {
   status: "Planning" | "In Progress" | "Completed";
+  progress: number
 }) {
   const base =
     "px-3 py-1 text-xs rounded-full font-medium";
 
-  if (status === "Completed")
+  if (status === "Completed" || progress == 100)
     return (
-      <span className={`${base} bg-violet-100 text-violet-700`}>
+      <span className={`${base} bg-green-100 text-green-600`}>
         {status}
       </span>
     );
