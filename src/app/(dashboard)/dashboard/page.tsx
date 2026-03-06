@@ -2,6 +2,7 @@
 import { useProjectStore } from "@/store/projectStore";
 import Link from "next/link";
 import { Project } from "@/types/project";
+import { motion } from "framer-motion"
 import StatusBadge from "./components/StatusBadge";
 interface Stat {
   title: string;
@@ -46,7 +47,7 @@ export default function DashboardPage() {
 
 
 
-    const progress = total === 0 ? 0 : Math.round((completed/total) * 100);
+    const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
     return {
       id: p.id,
       name: p.name,
@@ -86,7 +87,7 @@ export default function DashboardPage() {
           Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700">View All</Link>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-y-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-gray-500 text-sm border-b border-violet-100">
@@ -98,7 +99,19 @@ export default function DashboardPage() {
               </tr>
             </thead>
 
-            <tbody className="text-sm text-gray-700">
+            <motion.tbody
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.07
+                  }
+                }
+              }}
+              className="text-sm text-gray-700"
+            >
               {dashboardProjects.length === 0 ? (
                 <tr>
                   <td colSpan={5} className=" text-center py-10 text-gray-500">
@@ -110,7 +123,7 @@ export default function DashboardPage() {
                   <TableRow key={project.id} {...project} />
                 ))
               )}
-            </tbody>
+            </motion.tbody>
           </table>
         </div>
       </div>
@@ -120,12 +133,17 @@ export default function DashboardPage() {
 
 function StatCard({ title, value }: Stat) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-violet-100 hover:shadow-md transition">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-white rounded-2xl p-6 shadow-sm border border-violet-100 hover:shadow-md transition"
+    >
       <p className="text-sm text-gray-500">{title}</p>
       <h3 className="text-3xl font-bold text-violet-600 mt-2">
         {value}
       </h3>
-    </div>
+    </motion.div>
   );
 }
 
@@ -138,7 +156,14 @@ function TableRow({
   progress
 }: DashboardProject) {
   return (
-    <tr className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition">
+ <motion.tr
+  variants={{
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 }
+  }}
+  transition={{ duration: 0.3 }}
+      className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition "
+    >
       <td className="py-4 font-medium text-violet-600">
         <Link href={`/dashboard/projects/${id}`}>{name}</Link>
       </td>
@@ -155,7 +180,7 @@ function TableRow({
           />
         </div>
       </td>
-    </tr>
+    </motion.tr>
   );
 }
 

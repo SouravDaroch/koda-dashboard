@@ -12,7 +12,7 @@ interface Props {
 
 export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState<Task["status"]>("Planning");
+  const [status, setStatus] = useState<Task["status"]>("Todo");
   const addTask = useProjectStore((state) => state.addTask);
 
   if (!isOpen) return null;
@@ -28,7 +28,7 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
 
     addTask(projectId, newTask);
     setTitle("");
-    setStatus("Planning");
+    setStatus("Todo");
     onClose();
   };
 
@@ -54,9 +54,9 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
           onChange={(e) => setStatus(e.target.value as Task["status"])}
           className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-violet-400"
         >
-          <option value="Planning">Planning</option>
+          <option value="Todo">Todo</option>
           <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
+          <option value="Done">Done</option>
         </select>
 
         <div className="flex justify-end gap-3 pt-2">
