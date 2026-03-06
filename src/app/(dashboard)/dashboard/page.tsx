@@ -2,6 +2,7 @@
 import { useProjectStore } from "@/store/projectStore";
 import Link from "next/link";
 import { Project } from "@/types/project";
+import StatusBadge from "./components/StatusBadge";
 interface Stat {
   title: string;
   value: number;
@@ -13,15 +14,19 @@ interface DashboardProject {
   status: "Planning" | "In Progress" | "Completed"
   tasks: number
   dueDate: string
+  progress: number;
 }
 
 
 
 export default function DashboardPage() {
+  // Projects from zustand state 
   const projects = useProjectStore((state) => state.projects);
 
+  // Tasks from zustand state 
   const allTasks = projects.flatMap((p) => p.tasks);
 
+  // stats 
   const stats: Stat[] = [
     { title: "Total Projects", value: projects.length },
     { title: "Active Tasks", value: allTasks.filter(t => t.status === "In Progress").length },
@@ -30,13 +35,24 @@ export default function DashboardPage() {
   ];
 
 
-  const dashboardProjects: DashboardProject[] = projects.map((p) => ({
-    id: p.id,
-    name: p.name,
-    status: p.status,
-    tasks: p.tasks.length,
-    dueDate: p.dueDate,
-  }));
+  // dashboard projects to display 
+  const dashboardProjects: DashboardProject[] = projects.map((p) => {
+    const total = p.tasks.length;
+
+    const completed = p.tasks.filter(
+      (t) => t.status === "Done"
+    ).length;
+
+    const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
+    return {
+      id: p.id,
+      name: p.name,
+      status: p.status,
+      tasks: total,
+      dueDate: p.dueDate,
+      progress
+    };
+  });
 
   return (
     <div className="space-y-10">
@@ -75,6 +91,7 @@ export default function DashboardPage() {
                 <th>Status</th>
                 <th>Tasks</th>
                 <th>Due Date</th>
+                <th>Progress</th>
               </tr>
             </thead>
 
@@ -107,6 +124,7 @@ function TableRow({
   status,
   tasks,
   dueDate,
+  progress
 }: DashboardProject) {
   return (
     <tr className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition">
@@ -118,35 +136,15 @@ function TableRow({
       </td>
       <td>{tasks}</td>
       <td>{dueDate}</td>
+      <td className="w-40">
+  <div className="w-full bg-gray-200 rounded-full h-2">
+    <div
+      className="bg-violet-600 h-2 rounded-full"
+      style={{ width: `${progress}%` }}
+    />
+  </div>
+</td>
     </tr>
   );
 }
 
-function StatusBadge({
-  status,
-}: {
-  status: "Planning" | "In Progress" | "Completed";
-}) {
-  const base =
-    "px-3 py-1 text-xs rounded-full font-medium";
-
-  if (status === "Completed")
-    return (
-      <span className={`${base} bg-violet-100 text-violet-700`}>
-        {status}
-      </span>
-    );
-
-  if (status === "In Progress")
-    return (
-      <span className={`${base} bg-violet-50 text-violet-600`}>
-        {status}
-      </span>
-    );
-
-  return (
-    <span className={`${base} bg-gray-100 text-gray-600`}>
-      {status}
-    </span>
-  );
-}
