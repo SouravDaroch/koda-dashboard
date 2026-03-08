@@ -22,7 +22,7 @@ export default function SidebarItem({
         ${
            isActive
             ? "bg-linear-to-r from-violet-600 to-pink-400 text-white"
-            : "text-gray-600 hover:bg-violet-50 hover:text-violet-600"
+            : "text-gray-600 dark:text-gray-300 hover:bg-violet-50 dark:hover:bg-[#1c0333] hover:text-violet-600"
         }
       `}
     >

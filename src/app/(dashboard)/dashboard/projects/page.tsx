@@ -1,5 +1,5 @@
 "use client";
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 import { useState } from "react";
 import ProjectCard from "./components/ProjectCard";
 import NewProjectModal from "./components/NewProjectModal";
@@ -52,10 +52,10 @@ export default function ProjectsPage() {
     <div className="space-y-10">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-300 ">
             Projects
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-gray-600 mt-1">
             Manage and track your ongoing work.
           </p>
         </div>
@@ -78,37 +78,37 @@ export default function ProjectsPage() {
 
 
       {noResults ? (
-  <motion.div
-  initial={{ opacity: 0, scale: 0.95 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 0.3 }}
-  className="flex flex-col items-center justify-center py-20 bg-white border border-violet-100 rounded-2xl shadow-sm text-center"
->
-    
-    <div className="text-5xl mb-4">
-      {noProjects ? "📂" : "🔍"}
-    </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-col items-center justify-center py-20 bg-white dark:bg-[#1c0333] border border-violet-100 dark:border-neutral-800 rounded-2xl shadow-sm text-center"
+        >
 
-    <h3 className="text-lg font-semibold text-gray-800">
-      {noProjects ? "No Projects Yet" : "No Results Found"}
-    </h3>
+          <div className="text-5xl mb-4">
+            {noProjects ? "📂" : "🔍"}
+          </div>
 
-    <p className="text-gray-500 mt-1">
-      {noProjects
-        ? "Create your first project to start managing work."
-        : "Try changing the search or filter."}
-    </p>
+          <h3 className="text-lg font-semibold text-gray-500 dark:text-gray-400 ">
+            {noProjects ? "No Projects Yet" : "No Results Found"}
+          </h3>
 
-    {noProjects && (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="mt-5 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition"
-      >
-        + Create Project
-      </button>
-    )}
-  </motion.div>
-)  :
+          <p className="text-gray-500 mt-1">
+            {noProjects
+              ? "Create your first project to start managing work."
+              : "Try changing the search or filter."}
+          </p>
+
+          {noProjects && (
+            <button
+              onClick={() => setIsOpen(true)}
+              className="mt-5 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition"
+            >
+              + Create Project
+            </button>
+          )}
+        </motion.div>
+      ) :
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {

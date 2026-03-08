@@ -12,7 +12,7 @@ interface TaskListProps {
 export default function TaskList({ tasks, onDelete, onToggle }: TaskListProps) {
     if (tasks.length === 0) {
         return (
-            <p className="text-sm text-gray-500 text-center py-6">
+            <p className="text-sm text-gray-500 dark:text-gray-300 text-center py-6">
                 No tasks found.
             </p>
         );

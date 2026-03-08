@@ -65,38 +65,38 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-gray-800">
+                <h1 className="text-3xl font-bold text-gray-500 dark:text-gray-200 ">
                     {project.name}
                 </h1>
-                <p className="text-gray-500 mt-1">
+                <p className="text-gray-500 dark:text-gray-400 mt-1">
                     Detailed overview of this project.
                 </p>
             </div>
 
             <div className="grid md:grid-cols-4 gap-6">
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Total Tasks</h3>
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">Total Tasks</h3>
                     <p className="text-2xl font-bold mt-2">{totalTasks}</p>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Completed</h3>
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">Completed</h3>
                     <p className="text-2xl font-bold text-green-600 mt-2">
                         {completedTasks}
                     </p>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">In Progress</h3>
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">In Progress</h3>
                     <p className="text-2xl font-bold text-violet-600 mt-2">
                         {inProgressTasks}
                     </p>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Planning</h3>
-                    <p className="text-2xl font-bold text-gray-600 mt-2">
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">Planning</h3>
+                    <p className="text-2xl font-bold text-gray-600 dark:text-gray-400 mt-2">
                         {PlanningTasks}
                     </p>
                 </div>
@@ -104,9 +104,9 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
             </div>
 
             {/* Task Section */}
-            <div className="w-full bg-white p-6 rounded-2xl shadow-sm space-y-4">
+            <div className="w-full bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                    <h2 className="text-lg font-semibold text-gray-500 dark:text-gray-300 ">
                         Tasks
                     </h2>
 
@@ -124,11 +124,11 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                     {["All", "Todo", "In Progress", "Done"].map((status) => (
                         <button
                             key={status}
-                            onClick={() => setFilter(status as "All" |"Todo" | "In Progress" | "Done")}
+                            onClick={() => setFilter(status as "All" | "Todo" | "In Progress" | "Done")}
                             className={`px-3 py-1 rounded-lg text-sm transition
         ${filter === status
                                     ? "bg-violet-600 text-white"
-                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    : "bg-gray-100 dark:bg-[#110121] text-gray-600 dark:border dark:border-neutral-800 dark:text-gray-400 hover:bg-gray-200 hover:dark:bg-[#1c0333] cursor-pointer"
                                 }`}
                         >
                             {status}

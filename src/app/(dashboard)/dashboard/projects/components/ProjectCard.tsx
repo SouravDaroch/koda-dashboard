@@ -33,16 +33,16 @@ export default function ProjectCard({
                     ease: easeOut
                 },
             }}
-            className="bg-white rounded-2xl p-6 border border-violet-100 shadow-sm hover:shadow-lg transition space-y-4"
+            className="bg-white dark:bg-[#1c0333] rounded-2xl p-6 border border-violet-100 dark:border-neutral-800 shadow-sm hover:shadow-lg transition space-y-4"
         >
             <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-gray-800">
+                <h3 className="font-semibold text-gray-500 dark:text-gray-300">
                     {project.name}
                 </h3>
                 <StatusBadge status={project.status} />
             </div>
 
-            <div className="text-sm text-gray-500 space-y-1">
+            <div className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
                 <p>{project.tasks.length} Tasks</p>
                 <p>Due: {project.dueDate}</p>
             </div>

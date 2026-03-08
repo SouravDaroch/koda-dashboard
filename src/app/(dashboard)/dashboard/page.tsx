@@ -59,7 +59,7 @@ export default function DashboardPage() {
     <div className="space-y-10">
       {/* Title */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-300 ">
           Dashboard Overview
         </h1>
         <p className="text-gray-500 mt-1">
@@ -79,15 +79,15 @@ export default function DashboardPage() {
       </div>
 
       {/* Projects Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-violet-100 p-6">
-        <div className="flex justify-between text-lg font-semibold text-gray-800 mb-6">
-          Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700">View All</Link>
+      <div className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-6  ">
+        <div className="flex justify-between text-lg font-semibold text-gray-700 dark:text-gray-300   mb-6">
+          Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700 dark:text-gray-400">View All</Link>
         </div>
 
         <div className="overflow-x-auto overflow-y-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="text-gray-500 text-sm border-b border-violet-100">
+              <tr className="text-gray-500 dark:text-gray-300 text-sm border-b border-violet-100 dark:border-neutral-700">
                 <th className="py-3">Project</th>
                 <th>Status</th>
                 <th>Tasks</th>
@@ -111,7 +111,7 @@ export default function DashboardPage() {
             >
               {dashboardProjects.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className=" text-center py-10 text-gray-500">
+                  <td colSpan={5} className=" text-center py-10 text-gray-500 dark:text-gray-300">
                     No projects yet. Create your first project 🚀
                   </td>
                 </tr>
@@ -134,9 +134,9 @@ function StatCard({ title, value }: Stat) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white rounded-2xl p-6 shadow-sm border border-violet-100 hover:shadow-md transition"
+      className="bg-white dark:bg-[#1c0333] rounded-2xl p-6 shadow-sm border border-violet-100 dark:border-neutral-800 hover:shadow-md transition"
     >
-      <p className="text-sm text-gray-500">{title}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-300">{title}</p>
       <h3 className="text-3xl font-bold text-violet-600 mt-2">
         {value}
       </h3>
@@ -153,13 +153,13 @@ function TableRow({
   progress
 }: DashboardProject) {
   return (
- <motion.tr
-  variants={{
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 }
-  }}
-  transition={{ duration: 0.3 }}
-      className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition "
+    <motion.tr
+      variants={{
+        hidden: { opacity: 0, y: 10 },
+        visible: { opacity: 1, y: 0 }
+      }}
+      transition={{ duration: 0.3 }}
+      className=" border-b border-violet-50 dark:border-neutral-700 last:border-none hover:bg-violet-50/40 dark:hover:bg-[#110121] transition "
     >
       <td className="py-4 font-medium text-violet-600">
         <Link href={`/dashboard/projects/${id}`}>{name}</Link>
@@ -167,8 +167,8 @@ function TableRow({
       <td>
         <StatusBadge status={status} progress={progress} />
       </td>
-      <td>{tasks}</td>
-      <td>{dueDate}</td>
+      <td className="dark:text-gray-300">{tasks}</td>
+      <td className="dark:text-gray-300">{dueDate}</td>
       <td className="w-40">
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div

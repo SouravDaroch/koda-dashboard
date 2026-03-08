@@ -35,9 +35,9 @@ export default function NewProjectModal({
                         animate={{ y: 0, opacity: 1, scale: 1 }}
                         exit={{ y: 30, opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="bg-white w-full max-w-md rounded-2xl p-6 shadow-xl space-y-5"
+                        className="bg-white dark:bg-[#1c0333] w-full max-w-md rounded-2xl p-6 shadow-xl space-y-5"
                     >
-                        <h2 className="text-lg font-semibold text-gray-800">
+                        <h2 className="text-lg font-semibold text-gray-500 dark:text-gray-400 ">
                             Create New Project
                         </h2>
 
@@ -47,10 +47,10 @@ export default function NewProjectModal({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Project Name"
-                            className="w-full border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                            className="w-full border border-violet-100 dark:border-neutral-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-neutral-700"
                         />
 
-                        <select className="w-full border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                        <select className="w-full border border-violet-100 dark:border-neutral-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                             value={status}
                             onChange={(e) =>
                                 setStatus(
