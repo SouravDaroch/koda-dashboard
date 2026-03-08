@@ -47,7 +47,7 @@ export default function NewProjectModal({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Project Name"
-                            className="w-full border border-violet-100 dark:border-neutral-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-neutral-700"
+                            className="w-full border border-violet-100  rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-neutral-700"
                         />
 
                         <select className="w-full border border-violet-100 dark:border-neutral-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
