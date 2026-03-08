@@ -2,22 +2,23 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Project } from "@/types/project";
+import { Project, ProjectStatus } from "@/types/project";
+import { useProjectStore } from "@/store/projectStore";
+
+
 
 export default function NewProjectModal({
     isOpen,
     onClose,
-    onAdd
+
 }: {
     isOpen: boolean;
     onClose: () => void;
-    onAdd: (project: Project) => void;
-}) {
 
+}) {
+    const addProject = useProjectStore((state) => state.addProject);
     const [name, setName] = useState("");
-    const [status, setStatus] = useState<
-        "Planning" | "In Progress" | "Completed"
-    >("Planning");
+    const [status, setStatus] = useState<ProjectStatus>("Planning");
     // if (!isOpen) return null;
 
     return (
@@ -53,7 +54,7 @@ export default function NewProjectModal({
                             value={status}
                             onChange={(e) =>
                                 setStatus(
-                                    e.target.value as "Planning" | "In Progress" | "Completed"
+                                    e.target.value as ProjectStatus
                                 )
                             }
                         >
@@ -74,10 +75,11 @@ export default function NewProjectModal({
 
 
                             <button
+                                disabled={!name.trim()}
                                 onClick={() => {
                                     if (!name.trim()) return;
 
-                                    onAdd({
+                                    addProject({
                                         id: crypto.randomUUID(),
                                         name,
                                         status,

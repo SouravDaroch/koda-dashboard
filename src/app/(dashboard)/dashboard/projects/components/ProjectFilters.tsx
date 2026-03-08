@@ -1,16 +1,21 @@
 "use client";
+import { ProjectStatus } from "@/types/project";
+
+type FilterStatus = "All" | ProjectStatus;
+
+type ProjectFiltersProps = {
+  search: string;
+  setSearch: (value: string) => void;
+  filterStatus: FilterStatus;
+  setFilterStatus: (value: FilterStatus) => void;
+};
 
 export default function ProjectFilters({
   search,
   setSearch,
   filterStatus,
   setFilterStatus,
-}: {
-  search: string;
-  setSearch: (value: string) => void;
-  filterStatus: string;
-  setFilterStatus: (value: any) => void;
-}) {
+}: ProjectFiltersProps) {
   return (
     <div className="flex flex-col sm:flex-row gap-4">
       <input
@@ -24,7 +29,7 @@ export default function ProjectFilters({
       <select
         value={filterStatus}
         onChange={(e) =>
-          setFilterStatus(e.target.value)
+          setFilterStatus(e.target.value as FilterStatus)
         }
         className="border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
       >

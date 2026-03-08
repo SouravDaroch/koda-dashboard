@@ -1,48 +1,60 @@
+"use client"
+import { useProjectStore } from "@/store/projectStore";
+import Link from "next/link";
+import { Project } from "@/types/project";
+import { motion } from "framer-motion"
+import StatusBadge from "./components/StatusBadge";
 interface Stat {
   title: string;
   value: number;
 }
 
-interface Project {
-  id: string;
-  name: string;
-  status: "Planning" | "In Progress" | "Completed";
-  tasks: number;
-  dueDate: string;
+interface DashboardProject {
+  id: string
+  name: string
+  status: "Planning" | "In Progress" | "Completed"
+  tasks: number
+  dueDate: string
+  progress: number;
 }
 
-const stats: Stat[] = [
-  { title: "Total Projects", value: 12 },
-  { title: "Active Tasks", value: 48 },
-  { title: "Completed Tasks", value: 132 },
-  { title: "Team Members", value: 6 },
-];
 
-const projects: Project[] = [
-  {
-    id: "1",
-    name: "SaaS Dashboard",
-    status: "In Progress",
-    tasks: 24,
-    dueDate: "12 Mar 2026",
-  },
-  {
-    id: "2",
-    name: "E-commerce App",
-    status: "Completed",
-    tasks: 40,
-    dueDate: "02 Feb 2026",
-  },
-  {
-    id: "3",
-    name: "Portfolio Website",
-    status: "Planning",
-    tasks: 12,
-    dueDate: "25 Mar 2026",
-  },
-];
 
 export default function DashboardPage() {
+  // Projects from zustand state 
+  const projects = useProjectStore((state) => state.projects);
+
+  // Tasks from zustand state 
+  const allTasks = projects.flatMap((p) => p.tasks);
+
+  // stats 
+  const stats: Stat[] = [
+    { title: "Total Projects", value: projects.length },
+    { title: "Active Tasks", value: allTasks.filter(t => t.status === "In Progress").length },
+    { title: "Completed Tasks", value: allTasks.filter(t => t.status === "Done").length },
+    { title: "Total Tasks", value: allTasks.length },
+  ];
+
+
+  // dashboard projects to display 
+  const dashboardProjects: DashboardProject[] = projects.map((p) => {
+    const total = p.tasks.length;
+
+    const completed = p.tasks.filter(
+      (t) => t.status === "Done"
+    ).length;
+
+    const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
+    return {
+      id: p.id,
+      name: p.name,
+      status: p.status,
+      tasks: total,
+      dueDate: p.dueDate,
+      progress
+    };
+  });
+
   return (
     <div className="space-y-10">
       {/* Title */}
@@ -68,26 +80,47 @@ export default function DashboardPage() {
 
       {/* Projects Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-violet-100 p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-6">
-          Recent Projects
-        </h2>
+        <div className="flex justify-between text-lg font-semibold text-gray-800 mb-6">
+          Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700">View All</Link>
+        </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-y-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="text-gray-500 text-sm border-b border-violet-100">
                 <th className="py-3">Project</th>
                 <th>Status</th>
                 <th>Tasks</th>
-                <th>Due Date</th>
+                <th className="mx-2">Due Date</th>
+                <th>Progress</th>
               </tr>
             </thead>
 
-            <tbody className="text-sm text-gray-700">
-              {projects.map((project) => (
-                <TableRow key={project.id} {...project} />
-              ))}
-            </tbody>
+            <motion.tbody
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.07
+                  }
+                }
+              }}
+              className="text-sm text-gray-700"
+            >
+              {dashboardProjects.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className=" text-center py-10 text-gray-500">
+                    No projects yet. Create your first project 🚀
+                  </td>
+                </tr>
+              ) : (
+                dashboardProjects.map((project) => (
+                  <TableRow key={project.id} {...project} />
+                ))
+              )}
+            </motion.tbody>
           </table>
         </div>
       </div>
@@ -97,58 +130,54 @@ export default function DashboardPage() {
 
 function StatCard({ title, value }: Stat) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-violet-100 hover:shadow-md transition">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-white rounded-2xl p-6 shadow-sm border border-violet-100 hover:shadow-md transition"
+    >
       <p className="text-sm text-gray-500">{title}</p>
       <h3 className="text-3xl font-bold text-violet-600 mt-2">
         {value}
       </h3>
-    </div>
+    </motion.div>
   );
 }
 
 function TableRow({
+  id,
   name,
   status,
   tasks,
   dueDate,
-}: Project) {
+  progress
+}: DashboardProject) {
   return (
-    <tr className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition">
-      <td className="py-4 font-medium">{name}</td>
+ <motion.tr
+  variants={{
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 }
+  }}
+  transition={{ duration: 0.3 }}
+      className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition "
+    >
+      <td className="py-4 font-medium text-violet-600">
+        <Link href={`/dashboard/projects/${id}`}>{name}</Link>
+      </td>
       <td>
-        <StatusBadge status={status} />
+        <StatusBadge status={status} progress={progress} />
       </td>
       <td>{tasks}</td>
       <td>{dueDate}</td>
-    </tr>
+      <td className="w-40">
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div
+            className="bg-violet-600 h-2 rounded-full"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </td>
+    </motion.tr>
   );
 }
 
-function StatusBadge({
-  status,
-}: {
-  status: "Planning" | "In Progress" | "Completed";
-}) {
-  const base =
-    "px-3 py-1 text-xs rounded-full font-medium";
-
-  if (status === "Completed")
-    return (
-      <span className={`${base} bg-violet-100 text-violet-700`}>
-        {status}
-      </span>
-    );
-
-  if (status === "In Progress")
-    return (
-      <span className={`${base} bg-violet-50 text-violet-600`}>
-        {status}
-      </span>
-    );
-
-  return (
-    <span className={`${base} bg-gray-100 text-gray-600`}>
-      {status}
-    </span>
-  );
-}

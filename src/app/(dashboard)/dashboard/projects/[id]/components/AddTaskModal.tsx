@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Task } from "../types";
+import { useProjectStore } from "@/store/projectStore";
+import { Task } from "@/types/task";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (task: Task) => void;
+  projectId: string
 }
 
-export default function AddTaskModal({ isOpen, onClose, onAdd }: Props) {
+export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState<Task["status"]>("Todo");
+  const addTask = useProjectStore((state) => state.addTask);
 
   if (!isOpen) return null;
 
@@ -19,12 +21,12 @@ export default function AddTaskModal({ isOpen, onClose, onAdd }: Props) {
     if (!title.trim()) return;
 
     const newTask: Task = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       title,
       status,
     };
 
-    onAdd(newTask);
+    addTask(projectId, newTask);
     setTitle("");
     setStatus("Todo");
     onClose();

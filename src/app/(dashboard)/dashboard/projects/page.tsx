@@ -1,54 +1,37 @@
 "use client";
+import {motion} from "framer-motion"
 import { useState } from "react";
 import ProjectCard from "./components/ProjectCard";
-import NewProjectModal from "./components/NewProjectModal"
+import NewProjectModal from "./components/NewProjectModal";
 import ProjectFilters from "./components/ProjectFilters";
 import { AnimatePresence } from "framer-motion";
 import DeleteProjectModal from "./components/DeleteProjectModal";
 
 import { Project } from "@/types/project";
+import { useProjectStore } from "@/store/projectStore";
 
 export default function ProjectsPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [deleteProject, setDeleteProject] = useState<Project | null>(null);
+  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
 
-  const [projects, setProjects] = useState<Project[]>([
-    {
-      id: "1",
-      name: "SaaS Dashboard",
-      status: "In Progress",
-      tasks: [],
-      dueDate: "12 Mar 2026",
-    },
-    {
-      id: "2",
-      name: "E-commerce Platform",
-      status: "Completed",
-      tasks: [],
-      dueDate: "02 Feb 2026",
-    },
-  ]);
+  const projects = useProjectStore((state) => state.projects);
+  const removeProject = useProjectStore((state) => state.deleteProject);
+
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<
     "All" | "Planning" | "In Progress" | "Completed"
   >("All");
 
-  const handleAddProject = (project: Project) => {
-    setProjects((prev) => [project, ...prev]);
-  };
 
   const handleDeleteClick = (project: Project) => {
-    setDeleteProject(project);
+    setProjectToDelete(project);
   };
 
   const confirmDelete = () => {
-    if (!deleteProject) return;
+    if (!projectToDelete) return;
 
-    setProjects((prev) =>
-      prev.filter((p) => p.id !== deleteProject.id)
-    );
-
-    setDeleteProject(null);
+    removeProject(projectToDelete.id);
+    setProjectToDelete(null);
   };
 
   const filteredProjects = projects.filter((project) => {
@@ -61,6 +44,9 @@ export default function ProjectsPage() {
 
     return matchesSearch && matchesStatus;
   });
+
+  const noProjects = projects.length === 0;
+  const noResults = filteredProjects.length === 0;
 
   return (
     <div className="space-y-10">
@@ -88,25 +74,67 @@ export default function ProjectsPage() {
         filterStatus={filterStatus}
         setFilterStatus={setFilterStatus}
       />
-      {/* Projects grid  */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} onDelete={() => handleDeleteClick(project)} />
-          ))}
-        </AnimatePresence>
-      </div>
+
+
+
+      {noResults ? (
+  <motion.div
+  initial={{ opacity: 0, scale: 0.95 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.3 }}
+  className="flex flex-col items-center justify-center py-20 bg-white border border-violet-100 rounded-2xl shadow-sm text-center"
+>
+    
+    <div className="text-5xl mb-4">
+      {noProjects ? "📂" : "🔍"}
+    </div>
+
+    <h3 className="text-lg font-semibold text-gray-800">
+      {noProjects ? "No Projects Yet" : "No Results Found"}
+    </h3>
+
+    <p className="text-gray-500 mt-1">
+      {noProjects
+        ? "Create your first project to start managing work."
+        : "Try changing the search or filter."}
+    </p>
+
+    {noProjects && (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="mt-5 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition"
+      >
+        + Create Project
+      </button>
+    )}
+  </motion.div>
+)  :
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {
+              filteredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onDelete={() => handleDeleteClick(project)}
+                />
+              ))}
+          </AnimatePresence>
+        </div>
+      }
+
+
       <DeleteProjectModal
-        isOpen={!!deleteProject}
-        onClose={() => setDeleteProject(null)}
+        isOpen={!!projectToDelete}
+        onClose={() => setProjectToDelete(null)}
         onConfirm={confirmDelete}
-        projectName={deleteProject?.name || ""}
+        projectName={projectToDelete?.name || ""}
       />
 
       <NewProjectModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onAdd={handleAddProject}
+
       />
     </div>
   );
