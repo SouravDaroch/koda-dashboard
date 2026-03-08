@@ -23,7 +23,6 @@ export default function ProjectsPage() {
   >("All");
 
 
-
   const handleDeleteClick = (project: Project) => {
     setProjectToDelete(project);
   };

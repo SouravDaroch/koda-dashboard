@@ -21,7 +21,7 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
     if (!title.trim()) return;
 
     const newTask: Task = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       title,
       status,
     };

@@ -44,9 +44,6 @@ export default function DashboardPage() {
       (t) => t.status === "Done"
     ).length;
 
-
-
-
     const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
     return {
       id: p.id,

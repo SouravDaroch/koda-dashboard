@@ -121,7 +121,7 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 {/* Filter Buttons UI */}
                 <div className="flex gap-2">
 
-                    {["All", "Planning", "In Progress", "Completed"].map((status) => (
+                    {["All", "Todo", "In Progress", "Done"].map((status) => (
                         <button
                             key={status}
                             onClick={() => setFilter(status as "All" |"Todo" | "In Progress" | "Done")}

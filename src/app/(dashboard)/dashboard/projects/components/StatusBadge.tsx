@@ -1,4 +1,3 @@
-
 import { ProjectStatus } from "@/types/project";
 export default function StatusBadge({
   status,
@@ -8,10 +7,10 @@ export default function StatusBadge({
   const base =
     "px-3 py-1 text-xs rounded-full font-medium";
 
-  if (status === "Completed")
+  if (status === "Completed" )
     return (
       <span className={`${base} bg-green-100 text-green-600`}>
-        {status}
+        {"Completed"}
       </span>
     );
 
