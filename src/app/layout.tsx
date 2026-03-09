@@ -34,8 +34,6 @@ export default function RootLayout({
         <ClerkProvider>
           <ThemeProvider>
 
-            {/* <TopBar/> */}
-            
             {children}
 
           </ThemeProvider>
