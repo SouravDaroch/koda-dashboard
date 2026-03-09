@@ -1,9 +1,10 @@
 "use client";
 
 import { Project } from "@/types/project";
-import StatusBadge from "./StatusBadge";
+import StatusBadge from "../../../../../../components/StatusBadge";
 import { easeOut, motion } from "framer-motion";
 import Link from "next/link";
+import { getProjectProgress } from "../../../../../../lib/getProjectProgress";
 type ProjectCardProps = {
     project: Project;
     onDelete: () => void;
@@ -15,6 +16,8 @@ export default function ProjectCard({
 }:
     ProjectCardProps
 ) {
+
+    const progress = getProjectProgress(project);
     return (
 
         <motion.div
@@ -39,7 +42,7 @@ export default function ProjectCard({
                 <h3 className="font-semibold text-gray-500 dark:text-gray-300">
                     {project.name}
                 </h3>
-                <StatusBadge status={project.status} />
+                <StatusBadge status={project.status} progress={progress} />
             </div>
 
             <div className="text-sm text-gray-500 dark:text-gray-400 space-y-1">

@@ -1,9 +1,9 @@
 "use client"
 import { useProjectStore } from "@/store/projectStore";
 import Link from "next/link";
-import { Project } from "@/types/project";
+import { getProjectProgress } from "../../../../lib/getProjectProgress";
 import { motion } from "framer-motion"
-import StatusBadge from "./components/StatusBadge";
+import StatusBadge from "../../../../components/StatusBadge";
 interface Stat {
   title: string;
   value: number;
@@ -38,18 +38,14 @@ export default function DashboardPage() {
 
   // dashboard projects to display 
   const dashboardProjects: DashboardProject[] = projects.map((p) => {
-    const total = p.tasks.length;
 
-    const completed = p.tasks.filter(
-      (t) => t.status === "Done"
-    ).length;
+    const progress = getProjectProgress(p);
 
-    const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
     return {
       id: p.id,
       name: p.name,
       status: p.status,
-      tasks: total,
+      tasks: p.tasks.length,
       dueDate: p.dueDate,
       progress
     };
