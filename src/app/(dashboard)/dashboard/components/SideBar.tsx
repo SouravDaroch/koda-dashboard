@@ -4,13 +4,13 @@ import SidebarItem from "./SideBarItems";
 
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Projects", href: "/dashboard/projects" },
-  { label: "Settings", href: "/dashboard/settings" },
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "Projects", href: "/dashboard/projects" },
+    { label: "Settings", href: "/dashboard/settings" },
 ];
 
 export default function SideBar() {
-    return <aside className="hidden md:flex w-64 bg-white border-r border-violet-100 flex-col justify-between p-6">
+    return <aside className="hidden md:flex w-64 bg-white dark:bg-[#130026] border-r border-violet-100 dark:border-neutral-800 flex-col justify-between p-6">
         <div>
             {/* Logo */}
             <h2 className="text-2xl font-bold text-violet-600 mb-10 ">
@@ -20,12 +20,12 @@ export default function SideBar() {
             {/* Navigation */}
             <nav className="space-y-2">
                 {navItems.map((item) => (
-    <SidebarItem
-      key={item.href}
-      label={item.label}
-      href={item.href}
-    />
-  ))}
+                    <SidebarItem
+                        key={item.href}
+                        label={item.label}
+                        href={item.href}
+                    />
+                ))}
             </nav>
         </div>
 

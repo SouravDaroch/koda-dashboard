@@ -4,6 +4,9 @@ import { use, useState } from "react";
 import TaskList from "./components/TaskList";
 import AddTaskModal from "./components/AddTaskModal";
 import { useProjectStore } from "@/store/projectStore";
+import EditProjectModal from "./components/EditProjectModal";
+import EditTaskModal from "./components/EditTaskModal";
+import { Task } from "@/types/task";
 
 interface ProjectDetailsProps {
     params: Promise<{
@@ -14,7 +17,6 @@ interface ProjectDetailsProps {
 export default function ProjectDetails({ params }: ProjectDetailsProps) {
     const { id } = use(params);
     //  get project from zustand 
-
     const project = useProjectStore((state) =>
         state.projects.find((p) => p.id === id)
     );
@@ -62,41 +64,52 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
     const PlanningTasks = tasks.filter(
         (task) => task.status === "Todo"
     ).length;
+
+    const [isEditing, setIsEditing] = useState(false);
+   
     return (
         <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold text-gray-800">
-                    {project.name}
-                </h1>
-                <p className="text-gray-500 mt-1">
-                    Detailed overview of this project.
-                </p>
+            <div className="flex justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-200 ">
+                        {project.name}
+                    </h1>
+                    <p className="text-gray-500 dark:text-gray-400 mt-1">
+                        Detailed overview of this project.
+                    </p>
+                    <p className="text-gray-400 dark:text-gray-300 mt-1">Due: {project.dueDate}</p>
+                </div>
+                <button
+                    onClick={() => setIsEditing(true)}
+                    className="text-sm text-violet-600 hover:underline"
+                >
+                    Edit Details
+                </button>
             </div>
-
             <div className="grid md:grid-cols-4 gap-6">
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Total Tasks</h3>
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">Total Tasks</h3>
                     <p className="text-2xl font-bold mt-2">{totalTasks}</p>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Completed</h3>
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">Completed</h3>
                     <p className="text-2xl font-bold text-green-600 mt-2">
                         {completedTasks}
                     </p>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">In Progress</h3>
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">In Progress</h3>
                     <p className="text-2xl font-bold text-violet-600 mt-2">
                         {inProgressTasks}
                     </p>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 className="text-sm text-gray-500">Planning</h3>
-                    <p className="text-2xl font-bold text-gray-600 mt-2">
+                <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
+                    <h3 className="text-sm text-gray-500 dark:text-gray-300">Planning</h3>
+                    <p className="text-2xl font-bold text-gray-600 dark:text-gray-400 mt-2">
                         {PlanningTasks}
                     </p>
                 </div>
@@ -104,9 +117,9 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
             </div>
 
             {/* Task Section */}
-            <div className="w-full bg-white p-6 rounded-2xl shadow-sm space-y-4">
+            <div className="w-full bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                    <h2 className="text-lg font-semibold text-gray-500 dark:text-gray-300 ">
                         Tasks
                     </h2>
 
@@ -124,11 +137,11 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                     {["All", "Todo", "In Progress", "Done"].map((status) => (
                         <button
                             key={status}
-                            onClick={() => setFilter(status as "All" |"Todo" | "In Progress" | "Done")}
+                            onClick={() => setFilter(status as "All" | "Todo" | "In Progress" | "Done")}
                             className={`px-3 py-1 rounded-lg text-sm transition
         ${filter === status
                                     ? "bg-violet-600 text-white"
-                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    : "bg-gray-100 dark:bg-[#110121] text-gray-600 dark:border dark:border-neutral-800 dark:text-gray-400 hover:bg-gray-200 hover:dark:bg-[#1c0333] cursor-pointer"
                                 }`}
                         >
                             {status}
@@ -139,7 +152,8 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
 
                 <TaskList tasks={filteredTasks}
                     onDelete={handleDeleteTask}
-                    onToggle={handleToggleStatus} />
+                    onToggle={handleToggleStatus}
+                    projectId={project.id} />
             </div>
 
             <AddTaskModal
@@ -147,6 +161,17 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 onClose={() => setIsOpen(false)}
                 projectId={id}
             />
+
+            {isEditing && (
+                <EditProjectModal
+                    id={project.id}
+                    currentName={project.name}
+                    currentDueDate={project.dueDate}
+                    onClose={() => setIsEditing(false)}
+                />
+            )}
+
+       
         </div>
     );
 }

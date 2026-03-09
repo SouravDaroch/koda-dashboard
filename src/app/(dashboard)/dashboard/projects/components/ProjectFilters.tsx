@@ -23,7 +23,7 @@ export default function ProjectFilters({
         placeholder="Search projects..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="flex-1 border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="flex-1 border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 dark:border-neutral-700"
       />
 
       <select
@@ -31,7 +31,7 @@ export default function ProjectFilters({
         onChange={(e) =>
           setFilterStatus(e.target.value as FilterStatus)
         }
-        className="border border-violet-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+        className="border border-violet-100 dark:border-neutral-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 dark:bg-neutral-800"
       >
         <option value="All">All</option>
         <option value="Planning">Planning</option>

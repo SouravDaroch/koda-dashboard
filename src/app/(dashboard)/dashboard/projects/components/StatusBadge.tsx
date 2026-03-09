@@ -9,20 +9,20 @@ export default function StatusBadge({
 
   if (status === "Completed" )
     return (
-      <span className={`${base} bg-green-100 text-green-600`}>
+      <span className={`${base} bg-green-100 text-green-600 dark:text-green-50 dark:bg-green-600`}>
         {"Completed"}
       </span>
     );
 
   if (status === "In Progress")
     return (
-      <span className={`${base} bg-violet-50 text-violet-600`}>
+      <span className={`${base} bg-violet-50 text-violet-600 dark:bg-neutral-900 dark:border dark:border-neutral-700`}>
         {status}
       </span>
     );
 
   return (
-    <span className={`${base} bg-gray-100 text-gray-600`}>
+    <span className={`${base} bg-gray-100  dark:bg-neutral-300 text-gray-600 dark:text-gray-900`}>
       {status}
     </span>
   );

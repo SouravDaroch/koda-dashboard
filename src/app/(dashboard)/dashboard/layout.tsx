@@ -16,11 +16,12 @@ export default async function DashboardLayout({
   }
   return (
     <div className="flex min-h-screen">
+      
       {/* Sidebar - hidden on small screens */}
       <SideBar />
 
       {/* Main Content */}
-      <main className="flex-1 bg-[#f8f7fc]">
+      <main className="flex-1 bg-[#f8f7fc] dark:bg-[#130026]">
         {/* Topbar */}
         <TopBar />
 

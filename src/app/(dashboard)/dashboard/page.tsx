@@ -1,24 +1,11 @@
 "use client"
 import { useProjectStore } from "@/store/projectStore";
-import Link from "next/link";
-import { Project } from "@/types/project";
-import { motion } from "framer-motion"
-import StatusBadge from "./components/StatusBadge";
+import StatCard from "./components/StatCard";
+import ProjectTable from "./components/ProjectTable";
 interface Stat {
   title: string;
   value: number;
 }
-
-interface DashboardProject {
-  id: string
-  name: string
-  status: "Planning" | "In Progress" | "Completed"
-  tasks: number
-  dueDate: string
-  progress: number;
-}
-
-
 
 export default function DashboardPage() {
   // Projects from zustand state 
@@ -36,30 +23,13 @@ export default function DashboardPage() {
   ];
 
 
-  // dashboard projects to display 
-  const dashboardProjects: DashboardProject[] = projects.map((p) => {
-    const total = p.tasks.length;
 
-    const completed = p.tasks.filter(
-      (t) => t.status === "Done"
-    ).length;
-
-    const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
-    return {
-      id: p.id,
-      name: p.name,
-      status: p.status,
-      tasks: total,
-      dueDate: p.dueDate,
-      progress
-    };
-  });
 
   return (
     <div className="space-y-10">
       {/* Title */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-300 ">
           Dashboard Overview
         </h1>
         <p className="text-gray-500 mt-1">
@@ -78,106 +48,11 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Projects Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-violet-100 p-6">
-        <div className="flex justify-between text-lg font-semibold text-gray-800 mb-6">
-          Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700">View All</Link>
-        </div>
-
-        <div className="overflow-x-auto overflow-y-hidden">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-gray-500 text-sm border-b border-violet-100">
-                <th className="py-3">Project</th>
-                <th>Status</th>
-                <th>Tasks</th>
-                <th className="mx-2">Due Date</th>
-                <th>Progress</th>
-              </tr>
-            </thead>
-
-            <motion.tbody
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.07
-                  }
-                }
-              }}
-              className="text-sm text-gray-700"
-            >
-              {dashboardProjects.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className=" text-center py-10 text-gray-500">
-                    No projects yet. Create your first project 🚀
-                  </td>
-                </tr>
-              ) : (
-                dashboardProjects.map((project) => (
-                  <TableRow key={project.id} {...project} />
-                ))
-              )}
-            </motion.tbody>
-          </table>
-        </div>
-      </div>
+ <ProjectTable/>
     </div>
   );
 }
 
-function StatCard({ title, value }: Stat) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="bg-white rounded-2xl p-6 shadow-sm border border-violet-100 hover:shadow-md transition"
-    >
-      <p className="text-sm text-gray-500">{title}</p>
-      <h3 className="text-3xl font-bold text-violet-600 mt-2">
-        {value}
-      </h3>
-    </motion.div>
-  );
-}
 
-function TableRow({
-  id,
-  name,
-  status,
-  tasks,
-  dueDate,
-  progress
-}: DashboardProject) {
-  return (
- <motion.tr
-  variants={{
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 }
-  }}
-  transition={{ duration: 0.3 }}
-      className="border-b border-violet-50 last:border-none hover:bg-violet-50/40 transition "
-    >
-      <td className="py-4 font-medium text-violet-600">
-        <Link href={`/dashboard/projects/${id}`}>{name}</Link>
-      </td>
-      <td>
-        <StatusBadge status={status} progress={progress} />
-      </td>
-      <td>{tasks}</td>
-      <td>{dueDate}</td>
-      <td className="w-40">
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div
-            className="bg-violet-600 h-2 rounded-full"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </td>
-    </motion.tr>
-  );
-}
+
 
