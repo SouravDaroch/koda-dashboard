@@ -4,6 +4,7 @@ import { use, useState } from "react";
 import TaskList from "./components/TaskList";
 import AddTaskModal from "./components/AddTaskModal";
 import { useProjectStore } from "@/store/projectStore";
+import EditProjectModal from "./components/EditProjectModal";
 
 interface ProjectDetailsProps {
     params: Promise<{
@@ -14,7 +15,6 @@ interface ProjectDetailsProps {
 export default function ProjectDetails({ params }: ProjectDetailsProps) {
     const { id } = use(params);
     //  get project from zustand 
-
     const project = useProjectStore((state) =>
         state.projects.find((p) => p.id === id)
     );
@@ -62,17 +62,27 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
     const PlanningTasks = tasks.filter(
         (task) => task.status === "Todo"
     ).length;
+
+    const [isEditing, setIsEditing] = useState(false);
     return (
         <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold text-gray-500 dark:text-gray-200 ">
-                    {project.name}
-                </h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">
-                    Detailed overview of this project.
-                </p>
+            <div className="flex justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-200 ">
+                        {project.name}
+                    </h1>
+                    <p className="text-gray-500 dark:text-gray-400 mt-1">
+                        Detailed overview of this project.
+                    </p>
+                    <p className="text-gray-400 dark:text-gray-300 mt-1">Due: {project.dueDate}</p>
+                </div>
+                <button
+                    onClick={() => setIsEditing(true)}
+                    className="text-sm text-violet-600 hover:underline"
+                >
+                    Edit Details
+                </button>
             </div>
-
             <div className="grid md:grid-cols-4 gap-6">
 
                 <div className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl shadow-sm">
@@ -147,6 +157,15 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                 onClose={() => setIsOpen(false)}
                 projectId={id}
             />
+
+            {isEditing && (
+                <EditProjectModal
+                    id={project.id}
+                    currentName={project.name}
+                    currentDueDate={project.dueDate}
+                    onClose={() => setIsEditing(false)}
+                />
+            )}
         </div>
     );
 }

@@ -12,81 +12,89 @@ interface ProjectStore {
   addTask: (projectId: string, task: Task) => void;
   deleteTask: (projectId: string, taskId: string) => void;
   toggleTask: (projectId: string, taskId: string) => void;
+  updateProject: (id: string, name: string, dueDate: string) => void;
 }
 
 export const useProjectStore = create<ProjectStore>()(
   persist(
     (set) => ({
-  projects: [
-    {
-      id: "1",
-      name: "SaaS Dashboard",
-      status: "In Progress",
-      dueDate: "2026-04-10",
-      tasks: [
-        { id: "1", title: "Setup authentication", status: "Todo" },
-        { id: "2", title: "Build dashboard UI", status: "In Progress" },
-        { id: "3", title: "Connect API", status: "Done" },
+      projects: [
+        {
+          id: "1",
+          name: "SaaS Dashboard",
+          status: "In Progress",
+          dueDate: "2026-04-10",
+          tasks: [
+            { id: "1", title: "Setup authentication", status: "Todo" },
+            { id: "2", title: "Build dashboard UI", status: "In Progress" },
+            { id: "3", title: "Connect API", status: "Done" },
+          ],
+        },
       ],
-    },
-  ],
 
-  addProject: (project) =>
-    set((state) => ({
-      projects: [project, ...state.projects],
-    })),
+      addProject: (project) =>
+        set((state) => ({
+          projects: [project, ...state.projects],
+        })),
 
-  deleteProject: (projectId) =>
-    set((state) => ({
-      projects: state.projects.filter((p) => p.id !== projectId),
-    })),
+      deleteProject: (projectId) =>
+        set((state) => ({
+          projects: state.projects.filter((p) => p.id !== projectId),
+        })),
 
-  addTask: (projectId, task) =>
-    set((state) => ({
-      projects: state.projects.map((project) =>
-        project.id === projectId
-          ? { ...project, tasks: [task, ...project.tasks] }
-          : project
-      ),
-    })),
+      updateProject: (id: string, name: string, dueDate: string) =>
+        set((state) => ({
+          projects: state.projects.map((p) =>
+            p.id === id ? { ...p, name, dueDate } : p
+          ),
+        })),
 
-  deleteTask: (projectId, taskId) =>
-    set((state) => ({
-      projects: state.projects.map((project) =>
-        project.id === projectId
-          ? {
-            ...project,
-            tasks: project.tasks.filter((t) => t.id !== taskId),
-          }
-          : project
-      ),
-    })),
+      addTask: (projectId, task) =>
+        set((state) => ({
+          projects: state.projects.map((project) =>
+            project.id === projectId
+              ? { ...project, tasks: [task, ...project.tasks] }
+              : project
+          ),
+        })),
 
-  toggleTask: (projectId, taskId) =>
-    set((state) => ({
-      projects: state.projects.map((project) =>
-        project.id === projectId
-          ? {
-            ...project,
-            tasks: project.tasks.map((task) =>
-              task.id === taskId
-                ? {
-                  ...task,
-                  status:
-                    task.status === "Todo"
-                      ? "In Progress"
-                      : task.status === "In Progress"
-                        ? "Done"
-                        : "Todo",
-                }
-                : task
-            ),
-          }
-          : project
-      ),
-    })),
-}),
-  {
+      deleteTask: (projectId, taskId) =>
+        set((state) => ({
+          projects: state.projects.map((project) =>
+            project.id === projectId
+              ? {
+                ...project,
+                tasks: project.tasks.filter((t) => t.id !== taskId),
+              }
+              : project
+          ),
+        })),
+
+      toggleTask: (projectId, taskId) =>
+        set((state) => ({
+          projects: state.projects.map((project) =>
+            project.id === projectId
+              ? {
+                ...project,
+                tasks: project.tasks.map((task) =>
+                  task.id === taskId
+                    ? {
+                      ...task,
+                      status:
+                        task.status === "Todo"
+                          ? "In Progress"
+                          : task.status === "In Progress"
+                            ? "Done"
+                            : "Todo",
+                    }
+                    : task
+                ),
+              }
+              : project
+          ),
+        })),
+    }),
+    {
       name: "project-storage",
     })
 );
