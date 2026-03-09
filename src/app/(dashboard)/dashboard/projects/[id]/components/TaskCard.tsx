@@ -1,14 +1,17 @@
 "use client";
 
 import { Task } from "@/types/task";
+import { useState } from "react";
 
 interface TaskCardProps {
     task: Task;
     onDelete: (id: string) => void;
     onToggle: (id: string) => void;
+    onEdit: () => void
 }
 
-export default function TaskCard({ task, onDelete, onToggle }: TaskCardProps) {
+export default function TaskCard({ task, onDelete, onToggle, onEdit }: TaskCardProps) {
+
     return (
         <div className="bg-white dark:bg-[#1c0333] border border-gray-100 dark:border-neutral-800 rounded-xl p-4 shadow-sm hover:shadow-md transition flex items-start justify-between gap-4">
 
@@ -35,6 +38,13 @@ export default function TaskCard({ task, onDelete, onToggle }: TaskCardProps) {
                     {task.status}
                 </button>
 
+                {/* Edit Button  */}
+                <button
+                    onClick={onEdit}
+                    className="text-xs text-violet-600 hover:underline"
+                >
+                    Edit Task
+                </button>
                 {/* Delete Button */}
                 <button
                     onClick={() => onDelete(task.id)}
@@ -42,6 +52,7 @@ export default function TaskCard({ task, onDelete, onToggle }: TaskCardProps) {
                 >
                     Delete
                 </button>
+
 
             </div>
         </div>

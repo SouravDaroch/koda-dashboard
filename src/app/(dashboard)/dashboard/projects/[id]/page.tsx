@@ -5,6 +5,8 @@ import TaskList from "./components/TaskList";
 import AddTaskModal from "./components/AddTaskModal";
 import { useProjectStore } from "@/store/projectStore";
 import EditProjectModal from "./components/EditProjectModal";
+import EditTaskModal from "./components/EditTaskModal";
+import { Task } from "@/types/task";
 
 interface ProjectDetailsProps {
     params: Promise<{
@@ -64,6 +66,7 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
     ).length;
 
     const [isEditing, setIsEditing] = useState(false);
+   
     return (
         <div className="space-y-8">
             <div className="flex justify-between">
@@ -149,7 +152,8 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
 
                 <TaskList tasks={filteredTasks}
                     onDelete={handleDeleteTask}
-                    onToggle={handleToggleStatus} />
+                    onToggle={handleToggleStatus}
+                    projectId={project.id} />
             </div>
 
             <AddTaskModal
@@ -166,6 +170,8 @@ export default function ProjectDetails({ params }: ProjectDetailsProps) {
                     onClose={() => setIsEditing(false)}
                 />
             )}
+
+       
         </div>
     );
 }

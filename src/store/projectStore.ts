@@ -13,6 +13,11 @@ interface ProjectStore {
   deleteTask: (projectId: string, taskId: string) => void;
   toggleTask: (projectId: string, taskId: string) => void;
   updateProject: (id: string, name: string, dueDate: string) => void;
+  editTask: (
+    projectId: string,
+    taskId: string,
+    title: string
+  ) => void;
 }
 
 export const useProjectStore = create<ProjectStore>()(
@@ -65,6 +70,26 @@ export const useProjectStore = create<ProjectStore>()(
               ? {
                 ...project,
                 tasks: project.tasks.filter((t) => t.id !== taskId),
+              }
+              : project
+          ),
+        })),
+
+      editTask: (
+        projectId: string,
+        taskId: string,
+        title: string
+      ) =>
+        set((state) => ({
+          projects: state.projects.map((project) =>
+            project.id === projectId
+              ? {
+                ...project,
+                tasks: project.tasks.map((task) =>
+                  task.id === taskId
+                    ? { ...task, title }
+                    : task
+                ),
               }
               : project
           ),
