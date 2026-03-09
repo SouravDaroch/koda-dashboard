@@ -3,7 +3,7 @@ import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
 import ThemeToggle from "../../../../../components/theme-toggle"
 
 export default function TopBar() {
-  return <div className="flex items-center justify-between bg-white dark:bg-[#130026] border-b dark:border-neutral-800 px-6 py-4 shadow-sm">
+  return <div className="flex items-center justify-between bg-white dark:bg-[#130026] dark:border-b dark:border-neutral-800 px-6 py-4 shadow-sm">
     <h1 className="text-xl font-semibold md:hidden">Koda</h1>
 
     <div className="ml-auto flex items-center gap-4">

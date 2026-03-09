@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useProjectStore } from "@/store/projectStore";
+import {motion} from "framer-motion"
 
 export default function EditProjectModal({
   id,
@@ -27,7 +28,10 @@ export default function EditProjectModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40  backdrop-blur-sm flex items-center justify-center">
+    <motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+ className="fixed inset-0 bg-black/40  backdrop-blur-sm flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl w-md space-y-4"
@@ -64,6 +68,6 @@ export default function EditProjectModal({
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

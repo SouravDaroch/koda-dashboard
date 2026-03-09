@@ -28,7 +28,7 @@ export default function TableRow({
             transition={{ duration: 0.3 }}
             className=" border-b border-violet-50 dark:border-neutral-700 last:border-none hover:bg-violet-50/40 dark:hover:bg-[#110121] transition "
         >
-            <td className="py-4 pr-2 font-medium text-violet-600">
+            <td className="rounded-l-lg py-4 px-2 font-medium  text-violet-600">
                 <Link href={`/dashboard/projects/${id}`}>{name}</Link>
             </td>
             <td className="py-4 px-2">
@@ -36,7 +36,7 @@ export default function TableRow({
             </td>
             <td className="dark:text-gray-300 py-4 px-2">{tasks}</td>
             <td className="dark:text-gray-300 py-4 px-2">{dueDate}</td>
-            <td className="w-40 py-4 px-2">
+            <td className="w-40 py-4 px-2 rounded-r-lg">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                         className="bg-violet-600 h-2 rounded-full"

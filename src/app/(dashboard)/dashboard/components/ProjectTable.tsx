@@ -42,7 +42,7 @@ export default function ProjectTable() {
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="text-gray-500 dark:text-gray-300 text-sm border-b border-violet-100 dark:border-neutral-700">
-                            <th className="py-3">Project</th>
+                            <th className="py-3 px-2">Project</th>
                             <th className="py-4 px-2">Status</th>
                             <th className="py-4 px-2">Tasks</th>
                             <th className="py-4 px-2">Due Date</th>
