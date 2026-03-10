@@ -37,7 +37,7 @@ export default function TableRow({
             <td className="dark:text-gray-300 py-4 px-2 ">{tasks}</td>
             <td className="dark:text-gray-300 py-4 px-2">{dueDate}</td>
             <td className="w-40 py-4 px-2 rounded-r-lg">
-                <div className="w-full bg-gray-200 dark:bg-gray-400 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-300 rounded-full h-2">
                     <div
                         className="bg-violet-600 h-2 rounded-full"
                         style={{ width: `${progress}%` }}

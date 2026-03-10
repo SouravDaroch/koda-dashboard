@@ -55,7 +55,7 @@ export default function ProjectProgressChart({ data }: Props) {
 
                         <Tooltip
                             content={<CustomTooltip />}
-                            cursor={{ fill: isDark ? "#110121" : "#f3f4f6" }}
+                            cursor={{ fill: isDark ? "#e2ceff" : "#f3f4f6" }}
                         />
 
                         <Bar

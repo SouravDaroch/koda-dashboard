@@ -5,6 +5,7 @@ import ProjectTable from "./components/ProjectTable";
 import TaskStatusChart from "../../../../components/task-status-chart";
 import ProjectProgressChart from "../../../../components/project-progress-chart";
 import { getProjectProgress } from "../../../../lib/getProjectProgress";
+import Link from "next/link";
 interface Stat {
   title: string;
   value: number;
@@ -65,15 +66,38 @@ export default function DashboardPage() {
           />
         ))}
       </div>
+
+      {/* Charts  */}
       <div className="grid lg:grid-cols-2 gap-6">
-        <TaskStatusChart
-          completed={completedTasks}
-          inProgress={inProgressTasks}
-          planning={planningTasks}
-        />
-        <ProjectProgressChart
-          data={projectProgressData}
-        />
+        {projects.length === 0 ? (
+          <div className="col-span-2 bg-white dark:bg-[#1c0333] rounded-2xl border border-violet-100 dark:border-neutral-800 p-10 text-center">
+
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+              No project data yet
+            </p>
+
+            <p className="text-sm text-gray-500 mt-1">
+              Create your first project to see analytics
+            </p>
+            <Link
+              href="/dashboard/projects"
+              className="inline-block mt-4 text-sm font-medium px-4 py-2 rounded-lg text-white bg-violet-600 hover:bg-violet-700"
+            >
+             + Create Project
+            </Link>
+
+          </div>
+        ) : (<>
+          <TaskStatusChart
+            completed={completedTasks}
+            inProgress={inProgressTasks}
+            planning={planningTasks}
+          />
+          <ProjectProgressChart
+            data={projectProgressData}
+          />
+        </>
+        )}
       </div>
 
       <ProjectTable />

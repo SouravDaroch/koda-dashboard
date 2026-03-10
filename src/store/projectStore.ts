@@ -7,7 +7,7 @@ import { persist } from "zustand/middleware";
 interface ProjectStore {
   projects: Project[];
 
-  addProject: (project: Project) => void;
+  addProject: (project: Omit<Project, "id" | "tasks">) => string;
   deleteProject: (projectId: string) => void;
   addTask: (projectId: string, task: Task) => void;
   deleteTask: (projectId: string, taskId: string) => void;
@@ -24,23 +24,59 @@ export const useProjectStore = create<ProjectStore>()(
   persist(
     (set) => ({
       projects: [
-        {
-          id: "1",
-          name: "SaaS Dashboard",
-          status: "In Progress",
-          dueDate: "2026-04-10",
-          tasks: [
-            { id: "1", title: "Setup authentication", status: "Todo" },
-            { id: "2", title: "Build dashboard UI", status: "In Progress" },
-            { id: "3", title: "Connect API", status: "Done" },
-          ],
-        },
+       {
+    id: "1",
+    name: "SaaS Dashboard",
+    status: "In Progress",
+    dueDate: "2026-04-10",
+    tasks: [
+      { id: "1", title: "Setup authentication", status: "Done" },
+      { id: "2", title: "Build dashboard layout", status: "Done" },
+      { id: "3", title: "Implement charts", status: "In Progress" },
+      { id: "4", title: "Add project CRUD", status: "Todo" }
+    ]
+  },
+  {
+    id: "2",
+    name: "Landing Page Redesign",
+    status: "Planning",
+    dueDate: "2026-05-01",
+    tasks: [
+      { id: "1", title: "Research competitors", status: "Done" },
+      { id: "2", title: "Create wireframes", status: "In Progress" },
+      { id: "3", title: "Design hero section", status: "Todo" }
+    ]
+  },
+  {
+    id: "3",
+    name: "Mobile App MVP",
+    status: "Completed",
+    dueDate: "2026-03-15",
+    tasks: [
+      { id: "1", title: "User authentication", status: "Done" },
+      { id: "2", title: "Task API integration", status: "Done" },
+      { id: "3", title: "Deploy beta version", status: "Done" }
+    ]
+  }
+
       ],
 
-      addProject: (project) =>
+      addProject: (project) => {
+        const id = crypto.randomUUID();
+
         set((state) => ({
-          projects: [project, ...state.projects],
-        })),
+          projects: [
+            {
+              ...project,
+              id,
+              tasks: [],
+            },
+            ...state.projects,
+          ],
+        }));
+
+        return id;
+      },
 
       deleteProject: (projectId) =>
         set((state) => ({

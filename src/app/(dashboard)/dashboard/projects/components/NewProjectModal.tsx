@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project, ProjectStatus } from "@/types/project";
 import { useProjectStore } from "@/store/projectStore";
+import { useRouter } from "next/navigation";
 
 
 
@@ -20,6 +21,8 @@ export default function NewProjectModal({
     const [name, setName] = useState("");
     const [status, setStatus] = useState<ProjectStatus>("Planning");
     // if (!isOpen) return null;
+
+    const router = useRouter();
 
     return (
         <AnimatePresence>
@@ -79,14 +82,13 @@ export default function NewProjectModal({
                                 onClick={() => {
                                     if (!name.trim()) return;
 
-                                    addProject({
-                                        id: crypto.randomUUID(),
+                                    const id = addProject({
                                         name,
                                         status,
-                                        tasks: [],
                                         dueDate: new Date().toLocaleDateString(),
                                     });
 
+                                    router.push(`/dashboard/projects/${id}`);
                                     setName("");
                                     setStatus("Planning");
                                     onClose();

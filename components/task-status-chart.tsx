@@ -16,21 +16,25 @@ interface Props {
 }
 
 
-const COLORS = ["#7F22FE", "#BB8AFE", "#D1CDD4"];
-
 export default function TaskStatusChart({
     completed,
     inProgress,
     planning
 }: Props) {
 
-    const data = [
-        { name: "Completed", value: completed },
-        { name: "In Progress", value: inProgress },
-        { name: "Planning", value: planning }
-    ];
-
     const total = completed + inProgress + planning;
+
+    const COLORS = total === 0
+        ? ["#d4d4d4"] : ["#7F22FE", "#BB8AFE", "#D1CDD4"];
+
+    const data =
+        total === 0
+            ? [{ name: "No Tasks", value: 1 }]
+            : [
+                { name: "Completed", value: completed },
+                { name: "In Progress", value: inProgress },
+                { name: "Planning", value: planning }
+            ];
 
     return (
         <div className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-5">
