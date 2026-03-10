@@ -1,7 +1,7 @@
 "use client";
 
 import { Project } from "@/types/project";
-import StatusBadge from "../../../../../../components/StatusBadge";
+import StatusBadge from "../../../../../../components/status-badge";
 import { easeOut, motion } from "framer-motion";
 import Link from "next/link";
 import { getProjectProgress } from "../../../../../../lib/getProjectProgress";
@@ -36,7 +36,7 @@ export default function ProjectCard({
                     ease: easeOut
                 },
             }}
-            className="bg-white dark:bg-[#1c0333] rounded-2xl p-6 border border-violet-100 dark:border-neutral-800 shadow-lg dark:shadow-sm hover:shadow-md transition space-y-4 dark:shadow-violet-500/40  dark:hover:shadow-violet-500/40 "
+            className="bg-white dark:bg-[#1c0333] rounded-2xl p-6 border border-violet-100 dark:border-neutral-800 shadow-lg dark:shadow-sm hover:shadow-xl dark:hover:shadow-md transition space-y-4 dark:shadow-violet-500/40  dark:hover:shadow-violet-500/40 "
         >
             <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-gray-700 dark:text-gray-300">

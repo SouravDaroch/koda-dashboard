@@ -54,9 +54,9 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
           onChange={(e) => setStatus(e.target.value as Task["status"])}
           className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-violet-400"
         >
-          <option value="Todo">Todo</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Done">Done</option>
+          <option value="Todo" className="dark:bg-neutral-900">Todo</option>
+          <option value="In Progress" className="dark:bg-neutral-900">In Progress</option>
+          <option value="Done" className="dark:bg-neutral-900">Done</option>
         </select>
 
         <div className="flex justify-end gap-3 pt-2">

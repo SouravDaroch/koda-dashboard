@@ -33,7 +33,10 @@ export default function ProjectTable() {
 
     return <>
         {/* Projects Table */}
-        <div className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-6  ">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }} className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-6  ">
             <div className="flex justify-between text-lg font-semibold text-gray-700 dark:text-gray-300   mb-6">
                 Recent Projects <Link href={"/dashboard/projects"} className="text-sm hover:text-violet-600 text-gray-700 dark:text-gray-400">View All</Link>
             </div>
@@ -77,6 +80,6 @@ export default function ProjectTable() {
                     </motion.tbody>
                 </table>
             </div>
-        </div>
+        </motion.div>
     </>
 }

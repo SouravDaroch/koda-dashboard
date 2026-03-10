@@ -16,6 +16,8 @@ export default function SideBar() {
             <h2 className="text-2xl font-bold text-violet-600 mb-10 ">
                 KODA
             </h2>
+<i></i>
+            <button></button>
 
             {/* Navigation */}
             <nav className="space-y-2">

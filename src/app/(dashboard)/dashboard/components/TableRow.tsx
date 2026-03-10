@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import StatusBadge from "../../../../../components/StatusBadge"
+import StatusBadge from "../../../../../components/status-badge"
 import Link from "next/link"
 
 interface DashboardProject {
@@ -34,10 +34,10 @@ export default function TableRow({
             <td className="py-4 px-2">
                 <StatusBadge status={status} progress={progress} />
             </td>
-            <td className="dark:text-gray-300 py-4 px-2">{tasks}</td>
+            <td className="dark:text-gray-300 py-4 px-2 ">{tasks}</td>
             <td className="dark:text-gray-300 py-4 px-2">{dueDate}</td>
             <td className="w-40 py-4 px-2 rounded-r-lg">
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-300 rounded-full h-2">
                     <div
                         className="bg-violet-600 h-2 rounded-full"
                         style={{ width: `${progress}%` }}
