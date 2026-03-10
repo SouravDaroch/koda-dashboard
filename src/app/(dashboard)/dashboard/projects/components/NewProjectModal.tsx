@@ -58,9 +58,9 @@ export default function NewProjectModal({
                                 )
                             }
                         >
-                            <option>Planning</option>
-                            <option>In Progress</option>
-                            <option>Completed</option>
+                            <option className="dark:bg-neutral-900">Planning</option>
+                            <option className="dark:bg-neutral-900">In Progress</option>
+                            <option className="dark:bg-neutral-900">Completed</option>
                         </select>
 
                         <div className="flex justify-end gap-3 pt-2">

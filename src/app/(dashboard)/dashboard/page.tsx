@@ -38,7 +38,7 @@ export default function DashboardPage() {
   ];
 
 
-  const projectProgressData = projects.map((p) => ({
+  const projectProgressData = projects.slice(0, 6).map((p) => ({
     name: p.name,
     progress: getProjectProgress(p)
   }));
