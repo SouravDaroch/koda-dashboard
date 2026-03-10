@@ -53,7 +53,10 @@ export default function ProjectProgressChart({ data }: Props) {
                             tick={{ fontSize: 12 }}
                         />
 
-                        <Tooltip content={<CustomTooltip />} />
+                        <Tooltip
+                            content={<CustomTooltip />}
+                            cursor={{ fill: isDark ? "#110121" : "#f3f4f6" }}
+                        />
 
                         <Bar
                             dataKey="progress"
