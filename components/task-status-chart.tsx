@@ -1,5 +1,5 @@
 "use client";
-
+import {motion} from "framer-motion"
 import {
     PieChart,
     Pie,
@@ -37,7 +37,10 @@ export default function TaskStatusChart({
             ];
 
     return (
-        <div className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }} className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-5">
 
             <h3 className="text-xl font-semibold mb-4">
                 Task Status
@@ -117,6 +120,6 @@ export default function TaskStatusChart({
 
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

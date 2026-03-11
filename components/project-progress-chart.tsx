@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {motion} from "framer-motion"
 import {
     BarChart,
     Bar,
@@ -25,7 +26,10 @@ export default function ProjectProgressChart({ data }: Props) {
         setIsDark(document.documentElement.classList.contains("dark"));
     }, []);
     return (
-        <div className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-6">
+         <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }} className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-6">
 
             <h3 className="text-lg font-semibold mb-6">
                 Project Progress
@@ -71,7 +75,7 @@ export default function ProjectProgressChart({ data }: Props) {
                 </ResponsiveContainer>
             </div>
 
-        </div>
+        </motion.div>
     );
 }
 
