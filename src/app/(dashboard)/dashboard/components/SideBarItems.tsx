@@ -3,12 +3,14 @@ import { usePathname } from "next/navigation";
 interface SidebarItemProps {
   label: string;
   href: string;
+  closeBar : ()=> void
 }
 
 
 export default function SidebarItem({
   label,
   href,
+  closeBar
 }: SidebarItemProps) {
   const pathname = usePathname();
   const isActive =
@@ -17,7 +19,7 @@ export default function SidebarItem({
       : pathname.startsWith(href);
 
   return (
-    <Link href={href}
+    <Link href={href}  onClick={closeBar}
       className={`block px-4 py-2 rounded-xl text-sm font-medium cursor-pointer transition
         ${
            isActive

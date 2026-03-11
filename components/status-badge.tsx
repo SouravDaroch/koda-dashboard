@@ -16,7 +16,7 @@ export default function StatusBadge({
 
   if (status === "In Progress")
     return (
-      <span className={`${base} bg-violet-50 text-violet-600 dark:bg-neutral-900 dark:border dark:border-neutral-700`}>
+      <span className={`${base} bg-violet-50 text-violet-600 dark:bg-neutral-900 dark:border dark:border-neutral-700 whitespace-nowrap`}>
         {status}
       </span>
     )
