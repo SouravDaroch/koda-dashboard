@@ -31,7 +31,7 @@ https://your-live-link.vercel.app
 Clone the repo
 
 ```bash
-git clone https://github.com/your-username/koda-dashboard.git
+git clone https://github.com/SouravDaroch/koda-dashboard.git
 cd koda-dashboard
 ```
 
@@ -55,6 +55,12 @@ Create `.env.local`:
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key
 CLERK_SECRET_KEY=your_key
 ```
+
+## Screenshots
+
+![Dashboard](public/screenshots/dashboard.png)
+![Projects](public/screenshots/projects.png)
+![Project Details](public/screenshots/project-details.png)
 
 ## 👨‍💻 Author
 
