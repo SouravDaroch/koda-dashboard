@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   });
 
   const projects: UIProject[] = dbProjects.map((p) => {
-    const completedCount = p.tasks.filter((t) => t.isCompleted).length;
+    const completedCount = p.tasks.filter((t) => t.status === "Done").length;
     const status =
       p.tasks.length === 0
         ? "Planning"
@@ -34,11 +34,11 @@ export default async function DashboardPage() {
       id: p.id,
       name: p.name,
       status,
-      dueDate: new Date(p.createdAt).toLocaleDateString(),
+      dueDate: p.dueDate || new Date(p.createdAt).toLocaleDateString(),
       tasks: p.tasks.map((t) => ({
         id: t.id,
         title: t.title,
-        status: t.isCompleted ? "Done" : "Todo",
+        status: t.status as any || "Todo",
       })),
     };
   });

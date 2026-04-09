@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Project, ProjectStatus } from "@/types/project";
-import { useProjectStore } from "@/store/projectStore";
 import { useRouter } from "next/navigation";
+import { createProjectAction } from "@/app/actions/projectActions";
 
 
 
@@ -17,12 +17,31 @@ export default function NewProjectModal({
     onClose: () => void;
 
 }) {
-    const addProject = useProjectStore((state) => state.addProject);
     const [name, setName] = useState("");
     const [status, setStatus] = useState<ProjectStatus>("Planning");
-    // if (!isOpen) return null;
+    const [dueDate, setDueDate] = useState("");
+    const [isPending, setIsPending] = useState(false);
 
     const router = useRouter();
+
+    const handleCreate = async () => {
+        if (!name.trim() || isPending) return;
+
+        setIsPending(true);
+        try {
+            const id = await createProjectAction(name, status, dueDate || new Date().toISOString().split('T')[0]);
+            router.push(`/dashboard/projects/${id}`);
+            setName("");
+            setStatus("Planning");
+            setDueDate("");
+            onClose();
+        } catch (error) {
+            console.error("Failed to create project:", error);
+            // You might want to show an error toast here
+        } finally {
+            setIsPending(false);
+        }
+    };
 
     return (
         <AnimatePresence>
@@ -66,6 +85,13 @@ export default function NewProjectModal({
                             <option className="dark:bg-neutral-900">Completed</option>
                         </select>
 
+                        <input
+                            type="date"
+                            value={dueDate}
+                            onChange={(e) => setDueDate(e.target.value)}
+                            className="w-full border border-violet-100 dark:border-neutral-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                        />
+
                         <div className="flex justify-end gap-3 pt-2">
                             <button
                                 onClick={onClose}
@@ -78,24 +104,11 @@ export default function NewProjectModal({
 
 
                             <button
-                                disabled={!name.trim()}
-                                onClick={() => {
-                                    if (!name.trim()) return;
-
-                                    const id = addProject({
-                                        name,
-                                        status,
-                                        dueDate: new Date().toLocaleDateString(),
-                                    });
-
-                                    router.push(`/dashboard/projects/${id}`);
-                                    setName("");
-                                    setStatus("Planning");
-                                    onClose();
-                                }}
-                                className="bg-linear-to-r from-violet-600 to-pink-400 text-white px-4 py-2 rounded-xl text-sm hover:bg-violet-700 transition"
+                                disabled={!name.trim() || isPending}
+                                onClick={handleCreate}
+                                className="bg-linear-to-r from-violet-600 to-pink-400 text-white px-4 py-2 rounded-xl text-sm hover:bg-violet-700 transition disabled:opacity-50"
                             >
-                                Create
+                                {isPending ? "Creating..." : "Create"}
                             </button>
                         </div>
                     </motion.div>

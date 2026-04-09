@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useProjectStore } from "@/store/projectStore";
-import {motion} from "framer-motion"
+import { updateProjectAction } from "@/app/actions/projectActions";
+import { motion } from "framer-motion";
 
 export default function EditProjectModal({
   id,
@@ -15,23 +15,30 @@ export default function EditProjectModal({
   currentDueDate: string;
   onClose: () => void;
 }) {
-  const updateProject = useProjectStore((s) => s.updateProject);
-
   const [name, setName] = useState(currentName);
   const [dueDate, setDueDate] = useState(currentDueDate);
+  const [isPending, setIsPending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim() || isPending) return;
 
-    updateProject(id, name, dueDate);
-    onClose();
+    setIsPending(true);
+    try {
+      await updateProjectAction(id, { name, dueDate });
+      onClose();
+    } catch (error) {
+      console.error("Failed to update project:", error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
     <motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
- className="fixed inset-0 bg-black/40  backdrop-blur-sm flex items-center justify-center">
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="fixed inset-0 bg-black/40  backdrop-blur-sm flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
         className="bg-white dark:bg-[#1c0333] p-6 rounded-2xl w-md space-y-4"
@@ -62,9 +69,10 @@ export default function EditProjectModal({
 
           <button
             type="submit"
-            className="bg-violet-600 text-white px-4 py-2 rounded"
+            disabled={isPending || !name.trim()}
+            className="bg-violet-600 text-white px-4 py-2 rounded disabled:opacity-50"
           >
-            Save
+            {isPending ? "Saving..." : "Save"}
           </button>
         </div>
       </form>

@@ -1,35 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { useProjectStore } from "@/store/projectStore";
-import { Task } from "@/types/task";
+import { addTaskAction } from "@/app/actions/projectActions";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  projectId: string
+  projectId: string;
 }
 
 export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState<Task["status"]>("Todo");
-  const addTask = useProjectStore((state) => state.addTask);
+  const [isPending, setIsPending] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = () => {
-    if (!title.trim()) return;
+  const handleSubmit = async () => {
+    if (!title.trim() || isPending) return;
 
-    const newTask: Task = {
-      id: crypto.randomUUID(),
-      title,
-      status,
-    };
-
-    addTask(projectId, newTask);
-    setTitle("");
-    setStatus("Todo");
-    onClose();
+    setIsPending(true);
+    try {
+      await addTaskAction(projectId, title);
+      setTitle("");
+      onClose();
+    } catch (error) {
+      console.error("Failed to add task:", error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -49,16 +47,6 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
           className="w-full border border-gray-200 dark:border-neutral-700 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-violet-400"
         />
 
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value as Task["status"])}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-violet-400"
-        >
-          <option value="Todo" className="dark:bg-neutral-900">Todo</option>
-          <option value="In Progress" className="dark:bg-neutral-900">In Progress</option>
-          <option value="Done" className="dark:bg-neutral-900">Done</option>
-        </select>
-
         <div className="flex justify-end gap-3 pt-2">
 
           <button
@@ -69,10 +57,11 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: Props) {
           </button>
 
           <button
+            disabled={isPending || !title.trim()}
             onClick={handleSubmit}
-            className="px-4 py-2 text-sm rounded-lg bg-violet-600 text-white hover:bg-violet-700"
+            className="px-4 py-2 text-sm rounded-lg bg-violet-600 text-white hover:bg-violet-700 disabled:opacity-50"
           >
-            Add Task
+            {isPending ? "Adding..." : "Add Task"}
           </button>
 
         </div>
