@@ -1,3 +1,5 @@
+ "use client"
+ 
 import { motion } from "framer-motion"
 import StatusBadge from "../../../../../components/status-badge"
 import Link from "next/link"

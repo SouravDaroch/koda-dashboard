@@ -1,20 +1,21 @@
+"use client"
+
 import Link from "next/link";
 import { motion } from "framer-motion"
 import { getProjectProgress } from "../../../../../lib/getProjectProgress";
-import { useProjectStore } from "@/store/projectStore";
+import { Project } from "@/types/project";
 import TableRow from "./TableRow";
 
 interface DashboardProject {
-  id: string
-  name: string
-  status: "Planning" | "In Progress" | "Completed"
-  tasks: number
-  dueDate: string
-  progress: number;
+    id: string
+    name: string
+    status: "Planning" | "In Progress" | "Completed"
+    tasks: number
+    dueDate: string
+    progress: number;
 }
 
-export default function ProjectTable() {
-    const projects = useProjectStore((state) => state.projects);
+export default function ProjectTable({ projects }: { projects: Project[] }) {
     // dashboard projects to display 
     const dashboardProjects: DashboardProject[] = projects.map((p) => {
 
@@ -33,7 +34,7 @@ export default function ProjectTable() {
 
     return <>
         {/* Projects Table */}
-          <motion.div
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }} className="bg-white dark:bg-[#1c0333] rounded-2xl shadow-sm border border-violet-100 dark:border-neutral-800 p-6  ">
