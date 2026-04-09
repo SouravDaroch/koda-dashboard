@@ -1,20 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { useProjectStore } from "@/store/projectStore";
+import { editTaskAction } from "@/app/actions/projectActions";
 
 export default function EditTaskModal({
   projectId,
   task,
   onClose,
-}: any) {
-  const editTask = useProjectStore((s) => s.editTask);
+}: {
+  projectId: string;
+  task: { id: string; title: string };
+  onClose: () => void;
+}) {
   const [title, setTitle] = useState(task.title);
+  const [isPending, setIsPending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    editTask(projectId, task.id, title);
-    onClose();
+    if (!title.trim() || isPending) return;
+
+    setIsPending(true);
+    try {
+      await editTaskAction(projectId, task.id, title);
+      onClose();
+    } catch (error) {
+      console.error("Failed to edit task:", error);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -40,9 +53,10 @@ export default function EditTaskModal({
 
           <button
             type="submit"
-            className="bg-violet-600 text-white px-4 py-2 rounded"
+            disabled={isPending || !title.trim()}
+            className="bg-violet-600 text-white px-4 py-2 rounded disabled:opacity-50"
           >
-            Save
+            {isPending ? "Saving..." : "Save"}
           </button>
         </div>
       </form>
