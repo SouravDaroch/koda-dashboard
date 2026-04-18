@@ -19,15 +19,17 @@ https://koda-dashboard-nine.vercel.app/
 
 ## 🛠 Tech Stack
 
-* Next.js
-* TypeScript
-* Tailwind CSS
-* Zustand
-* Clerk Authentication
-* Recharts
-* Framer Motion
-* Prisma ORM
-* Neon Serverless Postgres (PostgreSQL)
+### 🎨 Frontend
+* **Framework:** Next.js
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS, Framer Motion
+* **State Management:** Zustand
+* **Charts:** Recharts
+
+### ⚙️ Backend & Infrastructure
+* **Database:** Neon Serverless Postgres (PostgreSQL)
+* **ORM:** Prisma
+* **Authentication:** Clerk
 
 ## 📦 Installation
 
