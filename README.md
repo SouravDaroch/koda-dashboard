@@ -14,8 +14,8 @@ https://koda-dashboard-nine.vercel.app/
 * Dashboard analytics with charts
 * Dark / Light theme
 * Mobile responsive layout with sliding sidebar
-* Persistent state using local storage
-* Secure authentication
+* Persistent data securely stored in a Postgres database
+* Secure authentication & user management
 
 ## 🛠 Tech Stack
 
@@ -25,6 +25,9 @@ https://koda-dashboard-nine.vercel.app/
 * Zustand
 * Clerk Authentication
 * Recharts
+* Framer Motion
+* Prisma ORM
+* Neon Serverless Postgres (PostgreSQL)
 
 ## 📦 Installation
 
@@ -41,6 +44,13 @@ Install dependencies
 npm install
 ```
 
+Set up Prisma ORM & Database
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
 Run development server
 
 ```bash
@@ -51,9 +61,15 @@ npm run dev
 
 Create `.env.local`:
 
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 ```
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_key
-CLERK_SECRET_KEY=your_key
+
+Create `.env`:
+
+```env
+DATABASE_URL=your_neon_postgres_connection_string
 ```
 
 ## Screenshots
